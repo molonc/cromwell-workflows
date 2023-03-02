@@ -409,7 +409,7 @@ task GatherUnsortedBamFiles {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "8 GB" # increased from 3 -> 5 -> 8
+    memory: "10 GB" # increased from 3 -> 5
     disk: disk_size + " GB"
   }
   output {

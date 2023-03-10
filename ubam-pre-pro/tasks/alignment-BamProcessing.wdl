@@ -253,7 +253,7 @@ task BaseRecalibrator {
     docker: gatk_docker
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "6 GB"
+    memory: "12 GB" # increased memory from 6 -> 12 GB
     disk: disk_size + " GB"
   }
   output {

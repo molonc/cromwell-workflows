@@ -46,7 +46,7 @@ version 1.0
 ##
 ## This pipeline has been built upon read-counter-multi.wdl, which can be found at 
 ## https://github.com/jliebe-bccrc/cromwell-workflows/tree/main/samtools-and-oneshots/read-counter. 
-## ichorCNA has been integrated into the same wdl to run both ReadCounter and ichorCNA in succession. 
+## ichorCNA has been integrated into the same wdl to run ReadCounter and ichorCNA in succession. 
 ##
 ## The pipeline was developed by Kelly Zhang and Jenna Liebe at the Aparicio Lab (BC Cancer
 ## Research Centre) in April 2023. 

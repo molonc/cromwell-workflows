@@ -1,0 +1,6 @@
+{
+  "WorkflowUrl": "https://url/to/read-counter-ichor-multi.wdl",
+  "WorkflowInputsUrl": "https://url/to/read-counter-ichor-multi.inputs.json",
+  "WorkflowOptionsUrl": null, 
+  "WorkflowDependenciesUrl": null
+}

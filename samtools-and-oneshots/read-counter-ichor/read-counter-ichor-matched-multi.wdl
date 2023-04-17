@@ -24,8 +24,7 @@ version 1.0
 ## This WDL pipeline is optimized for Cromwell on Azure. It is able to take in 
 ## one or more samples at a time and first runs readCounter.cpp on them to 
 ## produce WIG output files for each sample. With each of the outputted WIG 
-## files, it will use runIchorCNA.R to estimate the tumor fraction in cell-free 
-## DNA from ULP-WGS.
+## files, it will use runIchorCNA.R for copy number analysis. 
 ##
 ## Expected inputs:
 ## - Sample BAM file(s), with the associated index file (must have suffix ".bam.bai")

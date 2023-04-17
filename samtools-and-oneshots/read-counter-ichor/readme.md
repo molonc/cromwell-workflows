@@ -3,7 +3,7 @@ Workflow for generating a WIG file from an input BAM and its index (or more than
 
 ReadCounter was developed by Daniel Lai (and Gavin Ha) in the Shah Lab at the BC Cancer Research Agency, in 2011. Daniel Lai is now with the Aparicio Lab at the BC Cancer Research Centre. The source code can be found in this repository: https://github.com/shahcompbio/hmmcopy_utils
 
-ichorCNA is developed and maintained by Gavin Ha, Justin Rhoades, and Sam Freeman of the Gavin Ha Lab at Fred Hutch. 
+ichorCNA is developed and maintained by Gavin Ha, Justin Rhoades, and Sam Freeman of the Gavin Ha Lab at Fred Hutch. The source code can be found in this repository: https://github.com/GavinHaLab/ichorCNA 
 
 The original docker used to call ReadCounter and ichorCNA was contributed by the Fred Hutch Lab and can be found at https://hub.docker.com/r/fredhutch/ichorcna. The docker has been updated with packages and dependencies by Kelly Zhang in March 2023 for compatibility with Cromwell. The updated docker can be found at: https://hub.docker.com/r/apariciobioinformaticscoop/ichorcna-updated-packages. 
 

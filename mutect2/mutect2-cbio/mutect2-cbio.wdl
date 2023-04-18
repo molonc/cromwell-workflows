@@ -72,7 +72,7 @@ version 1.0
 ## Runtime parameters optimized for Cromwell on Azure implementation (instead of Google Cloud), outputs both VCF and MAF funcotated variants, 
 ## and optionally formats the outputted MAF file to comply with cBioPortal's import standards.
 
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/cbio-workflows/maf-formatter/cbio-ext-maf-formatter.wdl" as CbioMaf
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/cbio-workflows/maf-formatter/cbio-ext-maf-formatter.wdl" as CbioMaf
 
 
 struct Runtime {

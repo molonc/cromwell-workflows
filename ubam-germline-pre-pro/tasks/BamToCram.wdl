@@ -1,7 +1,7 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Utilities.wdl" as Utils
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Qc.wdl" as QC
 
 workflow BamToCram {
 

@@ -36,9 +36,9 @@ version 1.0
 ## used in later analysis (ex., somatic variant calling); and renaming the workflow to "PreProcessing".
 ## It also includes the call to BamToCram for Cram output files.
 
-import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/ubam-pre-pro/tasks/BamToCram.wdl" as ToCram
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/ubam-pre-pro/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/custom-pre-pro/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/custom-pre-pro/tasks/BamToCram.wdl" as ToCram
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/custom-pre-pro/tasks/Qc.wdl" as QC
 import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # WORKFLOW DEFINITION

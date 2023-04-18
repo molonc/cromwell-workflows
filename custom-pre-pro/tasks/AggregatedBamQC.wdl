@@ -15,7 +15,7 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-import "https://raw.githubusercontent.com/jliebe-bccrc/cromwell-workflows/main/custom-pre-pro/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/custom-pre-pro/tasks/Qc.wdl" as QC
 import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # WORKFLOW DEFINITION

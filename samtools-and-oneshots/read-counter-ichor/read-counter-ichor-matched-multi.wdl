@@ -146,7 +146,7 @@ task ReadCounter {
 		String docker
 	}
 
-	Int disk_size = 250
+	Int disk_size = 450 # increase disk size from 200 -> 250 -> 400 -> 450
 
 	command <<<
 		readCounter -w 1000000 -q 20 -c chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22,chrX,chrY ~{input_bam} > ~{sample_ID}.wig
@@ -155,7 +155,8 @@ task ReadCounter {
 	runtime {
     	docker: docker
     	disk: disk_size + " GB"
-    	cpu: 5
+		memory: "12 GB" # specify memory to 10 -> 12 GB to override default 
+    	cpu: 11 # increase CPU to 4 -> 5 -> 7 -> 9
     	preemptible: true
 	}
 

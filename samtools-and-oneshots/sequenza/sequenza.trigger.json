@@ -1,6 +1,0 @@
-{
-  "WorkflowUrl": "https://url/to/sequenza.wdl",
-  "WorkflowInputsUrl": "https://url/to/sequenza.inputs.json",
-  "WorkflowOptionsUrl": "https://url/to/sequenza.options.wdl", 
-  "WorkflowDependenciesUrl": null
-}

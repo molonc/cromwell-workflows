@@ -1,7 +1,0 @@
-{
-  "SequenzaWorkflow.SequenzaTask.sampleName": "sample_ID", 
-  "SequenzaWorkflow.normalBam": "/filepath/to/normal_reads.bam", 
-  "SequenzaWorkflow.tumorBam": "/filepath/to/tumor_reads.bam", 
-  "SequenzaWorkflow.ReferenceFastaGz": "/filepath/to/Homo_sapiens_assembly38.fasta.gz", 
-  "SequenzaWorkflow.ReferenceGcWig": "/filepath/to/Homo_sapiens_assembly38.gc50Base.wig.gz"
-}

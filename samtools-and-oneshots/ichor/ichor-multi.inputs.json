@@ -1,0 +1,36 @@
+{
+  "Ichor.normal_inputs": {
+    "normal_id": "normal_sample_ID", 
+    "normal_wig": "/filepath/to/normal_sample.wig"
+  }, 
+
+  "Ichor.tumor_inputs": [
+    {
+      "left": "tumor_1_ID",
+      "right": "/filepath/to/tumor_1.wig"
+    },
+    {
+      "left": "tumor_2_ID",
+      "right": "/filepath/to/tumor_2.wig"
+    },
+    {
+      "left": "tumor_3_ID",
+      "right": "/filepath/to/tumor_3.wig"
+    },
+    {
+      "left": "tumor_4_ID",
+      "right": "/filepath/to/tumor_4.wig"
+    }
+  ], 
+  
+  "Ichor.ichor_references": {
+    "gc_wig": "gatk9bd222534f548f/inputs/ichor-refs/gc_hg38_1000kb.wig", 
+    "map_wig": "gatk9bd222534f548f/inputs/ichor-refs/map_hg38_1000kb.wig", 
+    "centromere": "gatk9bd222534f548f/inputs/ichor-refs/GRCh38.GCA_000001405.2_centromere_acen.txt", 
+    "input_r_script": "gatk9bd222534f548f/inputs/runIchorCNA.R"
+  }, 
+
+  "Ichor.ichor_inputs": {
+    "plot_file_type": ".pdf"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "WorkflowUrl": "https://url/to/ichor-multi.wdl",
+  "WorkflowInputsUrl": "https://url/to/ichor-multi.inputs.json",
+  "WorkflowOptionsUrl": null, 
+  "WorkflowDependenciesUrl": null
+}

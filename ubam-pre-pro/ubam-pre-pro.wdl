@@ -122,23 +122,16 @@ workflow UbamPrePro {
       output_name = sample_info.base_file_name + ".flagstat.txt"
   }
 
+  call WriteFlagstatOut {
+    input: 
+      input_flagstat = Flagstat.output_file,
+      output_name = sample_info.base_file_name + ".writeout.flagstat.txt", 
+      sample_ID = sample_info.base_file_name
+  }
+
   # Outputs that will be retained when execution is complete
   output {
-    Array[File] quality_yield_metrics = UnmappedBamToAlignedBam.quality_yield_metrics
-
-    File duplicate_metrics = UnmappedBamToAlignedBam.duplicate_metrics
-    File output_bqsr_reports = UnmappedBamToAlignedBam.output_bqsr_reports
-
-    File? output_bam = provided_output_bam
-    File? output_bam_index = provided_output_bam_index
-    
-    File output_wgs_metrics = CollectWgsMetrics.metrics
-
-    File output_cram = BamToCram.output_cram
-    File output_cram_index = BamToCram.output_cram_index
-    File output_cram_md5 = BamToCram.output_cram_md5
-    
-    File output_flagstat = Flagstat.output_file
+    File test_output = WriteFlagstatOut.output_file
   }
 }
 
@@ -163,6 +156,33 @@ task Flagstat {
   }
 
   output {
+    File output_file = "~{output_name}"
+  }
+}
+
+task WriteFlagstatOut {
+  input {
+    File input_flagstat
+    String output_name
+    String sample_ID
+  }
+
+  command <<<
+    head -1 ~{input_flagstat} > temp.txt
+    VAR=$(awk -F ' ' '{print $1, $3}' temp.txt)
+    echo -n ~{sample_ID} >> ~{output_name}
+    echo -n " " >> ~{output_name}
+    echo -n $VAR >> ~{output_name}
+    rm temp.txt
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    cpu: 4
+    preemptible: true
+  }
+
+  output { 
     File output_file = "~{output_name}"
   }
 }

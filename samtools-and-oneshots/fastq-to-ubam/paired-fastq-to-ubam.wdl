@@ -1,3 +1,5 @@
+version 1.0
+
 ## Copyright Broad Institute, 2018
 ## 
 ## This WDL converts paired FASTQs to a uBAM

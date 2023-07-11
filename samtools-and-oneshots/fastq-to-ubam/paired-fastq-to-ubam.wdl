@@ -82,7 +82,7 @@ task ConvertPairedFastqs {
     Float disk_multiplier
   }
     Int command_mem_gb = machine_mem_gb - 1
-    Float fastq_size = size(fastq, "GB")
+    Float fastq_size = size(fastq_1, "GB")
     Int disk_space_gb = ceil(fastq_size + (fastq_size * disk_multiplier ) + addtional_disk_space_gb)
   
   command <<<

@@ -35,6 +35,7 @@ workflow ConvertPairedFastqsToUbam {
     String sample_ID 
     String fastq_1
     String fastq_2
+    String readgroup_name
 
     Int compression_level = 5
 
@@ -52,6 +53,7 @@ workflow ConvertPairedFastqsToUbam {
       sample_ID = sample_ID,
       fastq_1 = fastq_1,
       fastq_2 = fastq_2,
+      readgroup_name = readgroup_name, 
       output_bam_basename = sample_ID + ".unmapped.bam",
       compression_level = compression_level,
       gotc_docker = gotc_docker,
@@ -71,6 +73,7 @@ task ConvertPairedFastqs {
   input {
     # Command parameters
     String sample_ID
+    String readgroup_name
     File fastq_1
     File fastq_2
     String output_bam_basename
@@ -93,7 +96,8 @@ task ConvertPairedFastqs {
     F1=~{fastq_1} \
     F2=~{fastq_2} \
     O=~{output_bam_basename} \
-    SM=~{sample_ID}
+    SM=~{sample_ID} \
+    RG=~{readgroup_name}
   >>>
   
   runtime {

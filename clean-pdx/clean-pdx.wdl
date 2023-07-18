@@ -1,6 +1,7 @@
 version 1.0 
 
-## Copyright Aparicio Lab (BC Cancer Research Centre), 2022
+## Copyright Aparicio Lab (BC Cancer Research Centre), 2022 
+## Updated July 2023
 ## Created by Jenna Liebe
 ## This WDL pipeline strips out mouse reads from an input PDX (patient-derived xenograft) file
 ## in BAM format, by performing alignment to a chimeric mouse-human (mm10-hg38) reference
@@ -22,8 +23,9 @@ version 1.0
 ##
 ## Runtime parameters are optimized for Microsoft's CromwellOnAzure implementation.
 
+
 # WORKFLOW DEFINITION
-workflow CleanPDX {
+workflow UpdateCleanPDX {
 	input {
 		File input_bam
 		String sample_ID
@@ -47,6 +49,18 @@ workflow CleanPDX {
 		Int preemptible_tries = 2
 	}
 
+  call Flagstat {
+    input: 
+      input_bam = input_bam, 
+      output_name = sample_ID + ".raw.flagstat.txt"
+  }
+
+  call WriteFlagstatOut {
+    input: 
+      input_flagstat = Flagstat.output_file, 
+      output_name = sample_ID + ".writeout.raw.flagstat.txt", 
+      sample_ID = sample_ID
+  }
 
 	# Get the BWA version to use for alignment
 	call GetBwaVersion
@@ -99,56 +113,101 @@ workflow CleanPDX {
       gotc_docker = gotc_docker
   }
 
-
-  scatter (output_fastq in SortAndExtract.output_fastqs) 
-  {
-    String output_basename = basename(output_fastq)
-
-    # Convert final FASTQ to uBAM
-    call FastqToSam {
-      input:
-        input_fastq = output_fastq,
-        unsorted_bam_basename = output_basename + ".unsorted.unmapped.bam",
-        sample_ID = sample_ID,
-        compression_level = compression_level,
-        preemptible_tries = preemptible_tries,
-        gotc_docker = gotc_docker
-    }
-
-    # Sort the uBAM
-    call FinalSort {
-      input:
-        input_bam = FastqToSam.output_bam,
-        sorted_bam_basename = output_basename + ".sorted.unmapped",
-        compression_level = compression_level,
-        preemptible_tries = preemptible_tries,
-        gotc_docker = gotc_docker
-    }
-  
-    # Reheader the uBAM
-    call Reheader {
-      input:
-        input_bam = FinalSort.sorted_bam,
-        sample_ID = sample_ID,
-        sample_RGID = sample_RGID,
-        sample_PU = sample_PU,
-        sample_SM = sample_SM,
-        sample_PL = sample_PL,
-        output_bam_basename = output_basename + ".final.unmapped",
-        compression_level = compression_level,
-        preemptible_tries = preemptible_tries,
-        gotc_docker = gotc_docker
-    }
+  # https://github.com/gatk-workflows/seq-format-conversion/blob/master/paired-fastq-to-unmapped-bam.wdl
+  # Convert paired FASTQs to 1 uBAM
+  # adds a boolean flag (true for either setSecondOfPairFlag or setFirstOfPairFlag), which Flagstat will be able to interpret. 
+  call ConvertPairedFastQsToUnmappedBamWf {
+    input: 
+      sample_ID = sample_ID, 
+      fastq_1 = SortAndExtract.output_fastqs[0], 
+      fastq_2 = SortAndExtract.output_fastqs[1],
+      unsorted_bam_basename = basename(SortAndExtract.output_fastqs[0]) + ".unsorted.unmapped.bam", 
+      gotc_docker = gotc_docker
   }
 
+  String output_basename = basename(ConvertPairedFastQsToUnmappedBamWf.output_unmapped_bam)
+
+  call FinalSort {
+    input:
+      input_bam = ConvertPairedFastQsToUnmappedBamWf.output_unmapped_bam,
+      sorted_bam_basename = output_basename + ".sorted.unmapped",
+      compression_level = compression_level,
+      preemptible_tries = preemptible_tries,
+      gotc_docker = gotc_docker
+  }
+
+  call Reheader {
+    input:
+      input_bam = FinalSort.sorted_bam,
+      sample_ID = sample_ID,
+      sample_RGID = sample_RGID,
+      sample_PU = sample_PU,
+      sample_SM = sample_SM,
+      sample_PL = sample_PL,
+      output_bam_basename = output_basename + ".final.unmapped",
+      compression_level = compression_level,
+      preemptible_tries = preemptible_tries,
+      gotc_docker = gotc_docker
+  }
 
   output {
-    Array[File] output_bams = Reheader.output_bam
+    File flagstat_writeout = WriteFlagstatOut.output_file
   }
 }
 
 
 # TASK DEFINITIONS
+
+task Flagstat {
+  input {
+    File input_bam
+    String output_name
+  }
+
+  Int disk = ceil(size(input_bam, "GB") * 2)
+    
+  command <<< 
+    samtools flagstat ~{input_bam} > ~{output_name}
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    disk: disk + " GB"
+    cpu: 4
+    preemptible: true
+  }
+
+  output {
+    File output_file = "~{output_name}"
+  }
+}
+
+task WriteFlagstatOut {
+  input {
+    File input_flagstat
+    String output_name
+    String sample_ID
+  }
+
+  command <<<
+    head -1 ~{input_flagstat} > temp.txt
+    VAR=$(awk -F ' ' '{print $1, $3}' temp.txt)
+    echo -n ~{sample_ID} >> ~{output_name}
+    echo -n " " >> ~{output_name}
+    echo -n $VAR >> ~{output_name}
+    rm temp.txt
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    cpu: 4
+    preemptible: true
+  }
+
+  output { 
+    File output_file = "~{output_name}"
+  }
+}
 	
 # Get the BWA version to use for alignment
 task GetBwaVersion {
@@ -331,7 +390,7 @@ task SortAndExtract {
   }
 
   Float input_bam_size = size(input_bam, "GB")
-  Int disk_size = ceil(input_bam_size * 7)
+  Int disk_size = ceil(input_bam_size * 7) + 40 # + 0 -> + 40
 
   command <<<
     set -o pipefail
@@ -342,13 +401,13 @@ task SortAndExtract {
     OUTPUT=/dev/stdout \
     SORT_ORDER="queryname" \
     MAX_RECORDS_IN_RAM=300000 | \
-    samtools fastq -1 ~{output_fastq_basename}.fastq -2 ~{output_fastq_basename2}.fastq -0 /dev/null -s /dev/null -n /dev/stdin
+    samtools fastq -1 ~{output_fastq_basename}.fastq -2 ~{output_fastq_basename2}.fastq -0 /dev/null -s /dev/null /dev/stdin
   >>>
 
   runtime {
     docker: gotc_docker
-    memory: "32 GB"
-    cpu: 32
+    memory: "45 GB" # test failed at sort + extract, 32 GB -> 40 GB
+    cpu: 45 # 32 -> 40
     disk: disk_size + " GB"
     preemptible: true
     maxRetries: preemptible_tries
@@ -359,26 +418,29 @@ task SortAndExtract {
   }
 }
 
-
-task FastqToSam {
+# https://github.com/gatk-workflows/seq-format-conversion/blob/master/paired-fastq-to-unmapped-bam.wdl 
+task ConvertPairedFastQsToUnmappedBamWf {
   input {
-    File input_fastq
-    String unsorted_bam_basename
+    # Command parameters
     String sample_ID
-
-    Int preemptible_tries
-    Int compression_level
-    
+    File fastq_1
+    File fastq_2
+    String unsorted_bam_basename
     String gotc_docker
+    
+    # Runtime parameters
+    Int preemptible_tries = 3
+    Float disk_multiplier = 2.5
   }
-
-  Float sort_sam_disk_multiplier = 3.25
-  Int disk_size = ceil(sort_sam_disk_multiplier * size(input_fastq, "GB")) + 20
-
+  
+  Float fastq_size = size(fastq_1, "GB") + size(fastq_2, "GB")
+  Int disk_size = ceil(fastq_size + (fastq_size * disk_multiplier ) + 10)
+  
   command <<<
     java -Xms4000m -jar /usr/gitc/picard.jar \
     FastqToSam \
-    F1=~{input_fastq} \
+    F1=~{fastq_1} \
+    F2=~{fastq_2} \
     O=~{unsorted_bam_basename} \
     SM=~{sample_ID} \
     SORT_ORDER=queryname \
@@ -393,9 +455,8 @@ task FastqToSam {
     preemptible: true
     maxRetries: preemptible_tries
   }
-
   output {
-    File output_bam = "~{unsorted_bam_basename}"
+    File output_unmapped_bam = "~{unsorted_bam_basename}"
   }
 }
 
@@ -483,3 +544,4 @@ task Reheader {
     File output_bam = "~{output_bam_basename}.bam"
   }
 }
+

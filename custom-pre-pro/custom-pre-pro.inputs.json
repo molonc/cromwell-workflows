@@ -3,8 +3,7 @@
     "sample_name": "NA12878",
     "base_file_name": "sample_ID",
     "flowcell_unmapped_bams": [
-      "/filepath/to/input/unmapped_bam_1.bam",
-      "/filepath/to/input/unmapped_bam_2.bam"
+      "/filepath/to/input/unmapped_bam.bam"
     ],
     "final_gvcf_base_name": "sample_ID",
     "unmapped_bam_suffix": ".bam"

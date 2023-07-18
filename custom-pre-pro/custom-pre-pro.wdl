@@ -88,7 +88,7 @@ workflow PreProcessing {
     input:
       input_bam = UnmappedBamToAlignedBam.output_bam,
       input_bam_index = UnmappedBamToAlignedBam.output_bam_index,
-      metrics_filename = sample_info.base_file_name + ".wgs_metrics",
+      metrics_filename = sample_and_unmapped_bams.base_file_name + ".wgs_metrics",
       ref_fasta = references.reference_fasta.ref_fasta,
       ref_fasta_index = references.reference_fasta.ref_fasta_index,
       wgs_coverage_interval_list = wgs_coverage_interval_list,
@@ -112,27 +112,18 @@ workflow PreProcessing {
       output_name = sample_and_unmapped_bams.base_file_name + ".flagstat.txt"
   }
 
+  call WriteFlagstatOut {
+    input: 
+      input_flagstat = Flagstat.output_file,
+      output_name = sample_and_unmapped_bams.base_file_name + ".writeout.flagstat.txt", 
+      sample_ID = sample_and_unmapped_bams.base_file_name
+  }
+
   # Outputs that will be retained when execution is complete
   output {
-    Array[File] quality_yield_metrics = UnmappedBamToAlignedBam.quality_yield_metrics
-
-    File duplicate_metrics = UnmappedBamToAlignedBam.duplicate_metrics
-    File output_bqsr_reports = UnmappedBamToAlignedBam.output_bqsr_reports
-
-    # Temp fix - workflow fails when trying to copy BAM file, so just have to copy manually
-    #File? output_bam = provided_output_bam
-    
-    File? output_bam_index = provided_output_bam_index
-
-    # Temp fix - workflow fails when trying to copy larger CRAM file, so just have to copy manually
-    #File output_cram = BamToCram.output_cram
-
-    File output_cram_index = BamToCram.output_cram_index
-    File output_cram_md5 = BamToCram.output_cram_md5
-
-    File output_flagstat = Flagstat.output_file
+    File flagstat_output = WriteFlagstatOut.output_file
   }
-}
+} 
 
 
 task Flagstat {
@@ -155,6 +146,33 @@ task Flagstat {
   }
 
   output {
+    File output_file = "~{output_name}"
+  }
+}
+
+task WriteFlagstatOut {
+  input {
+    File input_flagstat
+    String output_name
+    String sample_ID
+  }
+
+  command <<<
+    head -1 ~{input_flagstat} > temp.txt
+    VAR=$(awk -F ' ' '{print $1, $3}' temp.txt)
+    echo -n ~{sample_ID} >> ~{output_name}
+    echo -n " " >> ~{output_name}
+    echo -n $VAR >> ~{output_name}
+    rm temp.txt
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    cpu: 4
+    preemptible: true
+  }
+
+  output { 
     File output_file = "~{output_name}"
   }
 }

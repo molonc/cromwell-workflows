@@ -25,7 +25,7 @@ version 1.0
 
 
 # WORKFLOW DEFINITION
-workflow UpdateCleanPDX {
+workflow CleanPDX {
 	input {
 		File input_bam
 		String sample_ID

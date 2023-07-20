@@ -1,0 +1,41 @@
+{
+  "ConvertPairedFastqsToUbam.metadata": {
+    "readgroup_name": "1", 
+    "library_name": "library_name", 
+    "platform_unit": "platform_id", 
+    "platform_name": "ILLUMINA", 
+    "run_date": "date", 
+    "sequencing_center": "GSC"
+  }, 
+
+  "ConvertPairedFastqsToUbam.fastq_pairs": [
+    {
+      "left" : "lane_1_output_name", 
+      "right": {
+        "fastq_1": "filepath/to/input.fastq_1", 
+        "fastq_2": "filepath/to/input.fastq_2"
+      }
+    }, 
+    {
+      "left" : "lane_2_output_name", 
+      "right": {
+        "fastq_1": "filepath/to/input.fastq_1", 
+        "fastq_2": "filepath/to/input.fastq_2"
+      }
+    }, 
+    {
+      "left" : "lane_3_output_name", 
+      "right": {
+        "fastq_1": "filepath/to/input.fastq_1", 
+        "fastq_2": "filepath/to/input.fastq_2"
+      }
+    }, 
+    {
+      "left" : "lane_4_output_name", 
+      "right": {
+        "fastq_1": "filepath/to/input.fastq_1", 
+        "fastq_2": "filepath/to/input.fastq_2"
+      }
+    }
+  ]
+}

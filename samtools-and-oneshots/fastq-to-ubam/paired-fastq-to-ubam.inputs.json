@@ -1,5 +1,11 @@
 {
   "ConvertFastqToUbam.fastq_1": "filepath/to/input.fastq_1",
   "ConvertFastqToUbam.fastq_2": "filepath/to/input.fastq_2", 
-  "ConvertFastqToUbam.sample_ID": "sample_ID"
+  "ConvertFastqToUbam.sample_ID": "sample_ID", 
+  "ConvertPairedFastqsToUbam.readgroup_name": "readgroup", 
+  "ConvertPairedFastqsToUbam.library_name": "library_name", 
+  "ConvertPairedFastqsToUbam.platform_unit": "platform_id",
+  "ConvertPairedFastqsToUbam.platform_name": "ILLUMINA",
+  "ConvertPairedFastqsToUbam.run_date": "date", 
+  "ConvertPairedFastqsToUbam.sequencing_center": "GSC"
 }

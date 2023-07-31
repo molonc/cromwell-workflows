@@ -36,6 +36,11 @@ workflow ConvertPairedFastqsToUbam {
     String fastq_1
     String fastq_2
     String readgroup_name
+    String library_name
+    String platform_unit
+    String platform_name
+    String run_date
+    String sequencing_center
 
     Int compression_level = 5
 
@@ -44,7 +49,7 @@ workflow ConvertPairedFastqsToUbam {
     
     # Sometimes the output is larger than the input, or a task can spill to disk.
     # In these cases we need to account for the input (1) and the output (1.5) or the input(1), the output(1), and spillage (.5).
-    Float disk_multiplier = 2.5
+    Float disk_multiplier = 10 # 2.5 -> 4 (increased b/c VM was running out)
   }
 
   # Convert pair of FASTQs to uBAM
@@ -54,6 +59,12 @@ workflow ConvertPairedFastqsToUbam {
       fastq_1 = fastq_1,
       fastq_2 = fastq_2,
       readgroup_name = readgroup_name, 
+      library_name = library_name, 
+      platform_unit = platform_unit, 
+      platform_name = platform_name, 
+      run_date = run_date, 
+      sequencing_center = sequencing_center, 
+      disk_multiplier = disk_multiplier, 
       output_bam_basename = sample_ID + ".unmapped.bam",
       compression_level = compression_level,
       gotc_docker = gotc_docker,
@@ -72,11 +83,16 @@ workflow ConvertPairedFastqsToUbam {
 task ConvertPairedFastqs {
   input {
     # Command parameters
-    String sample_ID
-    String readgroup_name
     File fastq_1
     File fastq_2
     String output_bam_basename
+    String sample_ID
+    String readgroup_name
+    String library_name
+    String platform_unit
+    String platform_name
+    String run_date
+    String sequencing_center
     String gotc_docker
     Int compression_level
 
@@ -97,7 +113,12 @@ task ConvertPairedFastqs {
     F2=~{fastq_2} \
     O=~{output_bam_basename} \
     SM=~{sample_ID} \
-    RG=~{readgroup_name}
+    RG=~{readgroup_name} \
+    LB=~{library_name} \
+    PU=~{platform_unit} \
+    PL=~{platform_name} \
+    DT=~{run_date} \
+    CN=~{sequencing_center}
   >>>
   
   runtime {

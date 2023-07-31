@@ -27,34 +27,30 @@ version 1.0
 ## licensing information pertaining to the included programs.
 ## 
 ## UPDATE NOTES :
-## Updated by Jenna Liebe at the Aparicio Lab (BC Cancer Research Centre) May/June 2022.
-## 
+## Updated by Jenna Liebe at the Aparicio Lab (BC Cancer Research Centre), May/June 2022.
+##
 ## This pipeline has been modified from its original, which can be found at 
-## https://github.com/microsoft/gatk4-genome-processing-pipeline-azure. Major changes 
-## include adding BAM to uBAM conversion, flagstat, and BAM to CRAM tasks; changing the default pipeline
-## settings to output a VCF instead of a gVCF file; and renaming the workflow to 
-## "UbamGermlinePrePro".
+## https://github.com/microsoft/gatk4-genome-processing-pipeline-azure. Major changes include
+## removing all germline SNP/indel calling and adding BAM to uBAM functionality - pipeline is now
+## used for converting unmapped BAM files (uBAMs) into analysis-ready BAM files that can be
+## used in later analysis (ex., somatic variant calling). Also added tasks for calling samtools flagstat on the analysis-
+## ready BAMs and producing CRAM outputs for later storage; and renamed the workflow to "UbamPrePro".
 
 
-## remove BamToUnmappedBam task. 
-
-
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/BamToUnmappedBam.wdl" as ToUbam
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/BamToCram.wdl" as ToCram
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/AggregatedBamQC.wdl" as AggregatedQC
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Qc.wdl" as QC
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/VariantCalling.wdl" as ToGvcf
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/GermlineStructs.wdl"
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/BamToUnmappedBam.wdl" as ToUbam
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/BamToCram.wdl" as ToCram
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/GermlineStructs.wdl"
 
 
 # WORKFLOW DEFINITION
-workflow UbamGermlinePrePro {
+workflow UbamPrePro {
 
   String pipeline_version = "1.4"
 
   input {
-    String study
+    String study # metadata for cleaning automation 
     SampleInfo sample_info
     Array[File] unmapped_bams
     GermlineSingleSampleReferences references
@@ -74,7 +70,7 @@ workflow UbamGermlinePrePro {
 
   call ToBam.UnmappedBamToAlignedBam {
     input:
-      unmapped_bams         = unmapped_bams, 
+      unmapped_bams         = unmapped_bams,
       sample_info           = sample_info,
       references            = references,
       papi_settings         = papi_settings,
@@ -94,31 +90,6 @@ workflow UbamGermlinePrePro {
     File provided_output_bam_index = UnmappedBamToAlignedBam.output_bam_index
   }
 
-   call AggregatedQC.AggregatedBamQC {
-    input:
-      base_recalibrated_bam = UnmappedBamToAlignedBam.output_bam,
-      base_recalibrated_bam_index = UnmappedBamToAlignedBam.output_bam_index,
-      base_name = sample_info.base_file_name,
-      sample_name = sample_info.sample_name,
-      recalibrated_bam_base_name = recalibrated_bam_basename,
-      haplotype_database_file = haplotype_database_file,
-      references = references,
-      papi_settings = papi_settings
-  }
-
-  call ToCram.BamToCram as BamToCram {
-    input:
-      input_bam = UnmappedBamToAlignedBam.output_bam,
-      ref_fasta = references.reference_fasta.ref_fasta,
-      ref_fasta_index = references.reference_fasta.ref_fasta_index,
-      ref_dict = references.reference_fasta.ref_dict,
-      duplication_metrics = UnmappedBamToAlignedBam.duplicate_metrics,
-      chimerism_metrics = AggregatedBamQC.agg_alignment_summary_metrics,
-      base_file_name = sample_info.base_file_name,
-      agg_preemptible_tries = papi_settings.agg_preemptible_tries
-  }
-
-  # QC the sample WGS metrics (stringent thresholds)
   call QC.CollectWgsMetrics as CollectWgsMetrics {
     input:
       input_bam = UnmappedBamToAlignedBam.output_bam,
@@ -131,37 +102,14 @@ workflow UbamGermlinePrePro {
       preemptible_tries = papi_settings.agg_preemptible_tries
   }
 
-  # QC the sample raw WGS metrics (common thresholds)
-  call QC.CollectRawWgsMetrics as CollectRawWgsMetrics {
+  call ToCram.BamToCram {
     input:
       input_bam = UnmappedBamToAlignedBam.output_bam,
-      input_bam_index = UnmappedBamToAlignedBam.output_bam_index,
-      metrics_filename = sample_info.base_file_name + ".raw_wgs_metrics",
-      ref_fasta = references.reference_fasta.ref_fasta,
-      ref_fasta_index = references.reference_fasta.ref_fasta_index,
-      wgs_coverage_interval_list = wgs_coverage_interval_list,
-      read_length = read_length,
-      preemptible_tries = papi_settings.agg_preemptible_tries
-  }
-
-  call ToGvcf.VariantCalling as BamToGvcf {
-    input:
-      calling_interval_list = references.calling_interval_list,
-      evaluation_interval_list = references.evaluation_interval_list,
-      haplotype_scatter_count = references.haplotype_scatter_count,
-      break_bands_at_multiples_of = references.break_bands_at_multiples_of,
-      contamination = UnmappedBamToAlignedBam.contamination,
-      input_bam = UnmappedBamToAlignedBam.output_bam,
-      input_bam_index = UnmappedBamToAlignedBam.output_bam_index,
       ref_fasta = references.reference_fasta.ref_fasta,
       ref_fasta_index = references.reference_fasta.ref_fasta_index,
       ref_dict = references.reference_fasta.ref_dict,
-      dbsnp_vcf = references.dbsnp_vcf,
-      dbsnp_vcf_index = references.dbsnp_vcf_index,
       base_file_name = sample_info.base_file_name,
-      final_vcf_base_name = sample_info.final_gvcf_base_name,
-      agg_preemptible_tries = papi_settings.agg_preemptible_tries,
-      use_gatk3_haplotype_caller = use_gatk3_haplotype_caller
+      agg_preemptible_tries = papi_settings.agg_preemptible_tries
   }
 
   call Flagstat {
@@ -177,14 +125,9 @@ workflow UbamGermlinePrePro {
       sample_ID = sample_info.base_file_name
   }
 
-  if (provide_bam_output) {
-    File provided_output_bam = UnmappedBamToAlignedBam.output_bam
-    File provided_output_bam_index = UnmappedBamToAlignedBam.output_bam_index
-  }
-
   # Outputs that will be retained when execution is complete
   output {
-    File flagstat = WriteFlagstatOut.output_file
+    File test_output = WriteFlagstatOut.output_file
   }
 }
 

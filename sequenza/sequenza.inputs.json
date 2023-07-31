@@ -1,4 +1,5 @@
 {
+  "SequenzaWorkflow.study": "name of study", 
   "SequenzaWorkflow.SequenzaTask.sampleName": "sample_ID", 
   "SequenzaWorkflow.normalBam": "/filepath/to/normal_reads.bam", 
   "SequenzaWorkflow.tumorBam": "/filepath/to/tumor_reads.bam", 

@@ -1,4 +1,5 @@
 {
+  "CleanPDX.study": "name of study", 
   "CleanPDX.input_bam": "/filepath/to/input.bam",
   "CleanPDX.sample_ID": "sample_ID",
   "CleanPDX.sample_RGID": "sample_RGID",

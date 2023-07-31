@@ -1,4 +1,6 @@
 {
+  "ReadCounterIchor.study": "name of study", 
+  
   "ReadCounterIchor.rc_normal_inputs": {
     "normal_id": "normal_sample_ID", 
     "normal_bam": "/filepath/to/normal_sample.bam", 

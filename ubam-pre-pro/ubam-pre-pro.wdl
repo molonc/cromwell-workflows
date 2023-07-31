@@ -50,6 +50,8 @@ workflow UbamPrePro {
   String pipeline_version = "1.4"
 
   input {
+    String study # metadata for clean-up automation  
+    
     SampleInfo sample_info
     File input_bam
     GermlineSingleSampleReferences references

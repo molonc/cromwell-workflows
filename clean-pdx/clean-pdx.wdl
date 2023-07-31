@@ -27,6 +27,8 @@ version 1.0
 # WORKFLOW DEFINITION
 workflow CleanPDX {
 	input {
+    String study # metadata for clean-up automation 
+    
 		File input_bam
 		String sample_ID
     String sample_RGID

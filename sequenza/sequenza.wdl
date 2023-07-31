@@ -50,6 +50,8 @@
 ## All Sequenza source code, including this WDL file, can be found at: https://sequenzatools.bitbucket.io/#/home 
 
 task SequenzaTask {
+  String study # metadata for clean-up automation  
+  
   String sampleName
   File normalBam
   File tumorBam

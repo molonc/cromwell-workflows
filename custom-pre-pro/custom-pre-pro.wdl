@@ -47,6 +47,8 @@ workflow PreProcessing {
   String pipeline_version = "1.4"
 
   input {
+    String study # metadata for clean-up automation 
+    
     SampleAndUnmappedBams sample_and_unmapped_bams
     GermlineSingleSampleReferences references
     PapiSettings papi_settings

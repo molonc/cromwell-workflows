@@ -76,8 +76,10 @@ struct IchorInputInfo {
 # WORKFLOW DEFINITION
 workflow ReadCounterIchor {
 	input {
+		String study # metadata for clean-up automation 
+		
 		ReadCounterNormal rc_normal_inputs
-		Array[Pair[String, TumorBamIndex]] rc_tumor_inputs
+		Array[Pair[String sample_ID, TumorBamIndex]] rc_tumor_inputs
 		IchorReferences ichor_references
 		IchorInputInfo ichor_inputs
 

@@ -89,6 +89,8 @@ struct Runtime {
 
 workflow Mutect2 {
     input {
+      String study # metadata for clean-up automation 
+      
       # Mutect2 inputs
       File? intervals
       File ref_fasta
@@ -873,7 +875,7 @@ task Filter {
     command {
         set -e
         export GATK_LOCAL_JAR=~{default="/root/gatk.jar" runtime_params.gatk_override}
-        gatk --java-options "-Xmx~{runtime_params.command_mem}m" FilterMutectCalls -V ~{unfiltered_vcf} \
+        gatk --java-options "-Xmx~{runtime_params.command_mem}m"   -V ~{unfiltered_vcf} \
             -R ~{ref_fasta} \
             -O ~{output_vcf} \
             ~{"--contamination-table " + contamination_table} \

@@ -3,7 +3,12 @@ Workflow for pre-processing of samples, and subsequent germline variant calling
 
 Takes a BAM file as input, and outputs analysis-ready BAM files along with germline variant annotations (in VCF format). Pipeline was developed by Microsoft and can be found in the [Microsoft GATK4 Genome Processing repository](https://github.com/microsoft/gatk4-genome-processing-pipeline-azure).
 
-The original workflow was modified to include the initial conversion of BAM to uBAM, as well as a call to samtools flagstat for extra metrics on the analysis-ready BAM file. These changes improve the efficiency of the overall workflow by reducing the number of individual pipelines needed to produce an analysis-ready BAM. 
+The original workflow was modified to include the initial conversion of BAM to uBAM, as well as a call to samtools flagstat for extra metrics on the analysis-ready BAM file. These changes improve the efficiency of the overall workflow by reducing the number of individual pipelines 
+needed to produce an analysis-ready BAM. 
+
+**ubam-germline-pre-pro-multiple-ubams.wdl:**
+This WDL has been changed to take in multiple uBAMs, which is commonly the output from the FastqToUbam workflow. Unlike the normal UbamPrePro workflow, there is no initial BAM to uBAM conversion task. 
+
 
 ---
 

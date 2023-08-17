@@ -10,28 +10,28 @@
 
   "ConvertPairedFastqsToUbam.fastq_pairs": [
     {
-      "left" : "lane_1_output_name", 
+      "left" : "platformId_laneNumber", 
       "right": {
         "fastq_1": "filepath/to/input.fastq_1", 
         "fastq_2": "filepath/to/input.fastq_2"
       }
     }, 
     {
-      "left" : "lane_2_output_name", 
+      "left" : "platformId_laneNumber", 
       "right": {
         "fastq_1": "filepath/to/input.fastq_1", 
         "fastq_2": "filepath/to/input.fastq_2"
       }
     }, 
     {
-      "left" : "lane_3_output_name", 
+      "left" : "platformId_laneNumber", 
       "right": {
         "fastq_1": "filepath/to/input.fastq_1", 
         "fastq_2": "filepath/to/input.fastq_2"
       }
     }, 
     {
-      "left" : "lane_4_output_name", 
+      "left" : "platformId_laneNumber", 
       "right": {
         "fastq_1": "filepath/to/input.fastq_1", 
         "fastq_2": "filepath/to/input.fastq_2"

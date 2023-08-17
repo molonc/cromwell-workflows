@@ -127,7 +127,7 @@ task ConvertPairedFastqs {
     SM=~{library_name} \
     RG=~{readgroup_name} \
     LB=~{library_name} \
-    PU=~{platform_unit} \
+    PU=~{output_bam_basename} \
     PL=~{platform_name} \
     DT=~{run_date} \
     CN=~{sequencing_center}

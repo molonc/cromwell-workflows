@@ -125,6 +125,12 @@ workflow UbamPrePro {
       sample_ID = sample_info.base_file_name
   }
 
+  call GetBamHeader {
+    input: 
+      input_bam = UnmappedBamToAlignedBam.output_bam, 
+      output_name = sample_info.base_file_name + ".bam.header.txt"
+  }
+
   # Outputs that will be retained when execution is complete
   output {
     File test_output = WriteFlagstatOut.output_file
@@ -179,6 +185,30 @@ task WriteFlagstatOut {
   }
 
   output { 
+    File output_file = "~{output_name}"
+  }
+}
+
+task GetBamHeader {
+  input {
+    File input_bam
+    String output_name
+  }
+
+  Int disk = ceil(size(input_bam, "GB") * 2)
+
+  command <<<
+    samtools view -H > ~{output_name}
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    disk: disk + " GB"
+    cpu: 4
+    preemptible: true
+  }
+
+  output {
     File output_file = "~{output_name}"
   }
 }

@@ -152,6 +152,12 @@ workflow CleanPDX {
       gotc_docker = gotc_docker
   }
 
+  call GetBamHeader {
+    input: 
+      input_bam = Reheader.output_bam, 
+      output_name = output_basename + ".bam.header.txt"
+  }
+
   output {
     File flagstat_writeout = WriteFlagstatOut.output_file
   }
@@ -403,7 +409,7 @@ task SortAndExtract {
     OUTPUT=/dev/stdout \
     SORT_ORDER="queryname" \
     MAX_RECORDS_IN_RAM=300000 | \
-    samtools fastq -1 ~{output_fastq_basename}.fastq -2 ~{output_fastq_basename2}.fastq -0 /dev/null -s /dev/null /dev/stdin
+    samtools fastq -1 ~{output_fastq_basename}.fastq -2 ~{output_fastq_basename2}.fastq -0 /dev/null -s /dev/null /dev/stdin 
   >>>
 
   runtime {
@@ -544,6 +550,30 @@ task Reheader {
 
   output {
     File output_bam = "~{output_bam_basename}.bam"
+  }
+}
+
+task GetBamHeader {
+  input {
+    File input_bam
+    String output_name
+  }
+
+  Int disk = ceil(size(input_bam, "GB") * 2)
+
+  command <<<
+    samtools view -H > ~{output_name}
+  >>>
+
+  runtime {
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    disk: disk + " GB"
+    cpu: 4
+    preemptible: true
+  }
+
+  output {
+    File output_file = "~{output_name}"
   }
 }
 

@@ -27,7 +27,8 @@ version 1.0
 ## licensing information pertaining to the included programs.
 ## 
 ## UPDATE NOTES :
-## Updated by Jenna Liebe at the Aparicio Lab (BC Cancer Research Centre) May/June 2022.
+## Last Updated: August 22, 2023 by Kelly Zhang (Aparicio Lab) - added GetBamHeader task
+## 
 ## 
 ## This pipeline has been modified from its original, which can be found at 
 ## https://github.com/microsoft/gatk4-genome-processing-pipeline-azure. Major changes 

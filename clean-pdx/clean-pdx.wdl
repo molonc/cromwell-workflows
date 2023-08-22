@@ -1,8 +1,10 @@
 version 1.0 
 
 ## Copyright Aparicio Lab (BC Cancer Research Centre), 2022 
-## Updated July 2023
 ## Created by Jenna Liebe
+##
+## Last Updated: August 22, 2023 by Kelly Zhang - added GetBamHeader task
+## 
 ## This WDL pipeline strips out mouse reads from an input PDX (patient-derived xenograft) file
 ## in BAM format, by performing alignment to a chimeric mouse-human (mm10-hg38) reference
 ## genome and then removing all reads that more closely align to mouse reads.

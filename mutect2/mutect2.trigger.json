@@ -1,6 +1,0 @@
-{
-  "WorkflowUrl": "https://url/to/mutect2.wdl",
-  "WorkflowInputsUrl": "https://url/to/mutect2.inputs.json",
-  "WorkflowOptionsUrl": null,
-  "WorkflowDependenciesUrl": null
-}

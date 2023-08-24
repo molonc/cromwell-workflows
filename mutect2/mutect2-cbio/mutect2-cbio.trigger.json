@@ -1,6 +1,0 @@
-{
-  "WorkflowUrl": "https://url/to/mutect2-cbio.wdl",
-  "WorkflowInputsUrl": "https://url/to/mutect2-cbio.inputs.json",
-  "WorkflowOptionsUrl": "https://url/to/mutect2-cbio.options.json",
-  "WorkflowDependenciesUrl": null
-}

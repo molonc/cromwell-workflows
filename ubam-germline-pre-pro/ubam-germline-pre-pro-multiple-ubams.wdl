@@ -107,6 +107,7 @@ workflow UbamGermlinePrePro {
       papi_settings = papi_settings
   }
 
+  ## NOTE: uncomment if workflow requires .cram output
   # call ToCram.BamToCram as BamToCram {
   #   input:
   #     input_bam = UnmappedBamToAlignedBam.output_bam,

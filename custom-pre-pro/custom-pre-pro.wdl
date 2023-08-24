@@ -98,7 +98,8 @@ workflow PreProcessing {
       read_length = read_length,
       preemptible_tries = papi_settings.agg_preemptible_tries
   }
-  
+
+  ## NOTE: uncomment if workflow requires .cram output
   # call ToCram.BamToCram {
   #   input:
   #     input_bam = UnmappedBamToAlignedBam.output_bam,

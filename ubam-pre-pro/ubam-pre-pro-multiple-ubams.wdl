@@ -103,15 +103,15 @@ workflow UbamPrePro {
       preemptible_tries = papi_settings.agg_preemptible_tries
   }
 
-  call ToCram.BamToCram {
-    input:
-      input_bam = UnmappedBamToAlignedBam.output_bam,
-      ref_fasta = references.reference_fasta.ref_fasta,
-      ref_fasta_index = references.reference_fasta.ref_fasta_index,
-      ref_dict = references.reference_fasta.ref_dict,
-      base_file_name = sample_info.base_file_name,
-      agg_preemptible_tries = papi_settings.agg_preemptible_tries
-  }
+  # call ToCram.BamToCram {
+  #   input:
+  #     input_bam = UnmappedBamToAlignedBam.output_bam,
+  #     ref_fasta = references.reference_fasta.ref_fasta,
+  #     ref_fasta_index = references.reference_fasta.ref_fasta_index,
+  #     ref_dict = references.reference_fasta.ref_dict,
+  #     base_file_name = sample_info.base_file_name,
+  #     agg_preemptible_tries = papi_settings.agg_preemptible_tries
+  # }
 
   call Flagstat {
     input:

@@ -3,6 +3,8 @@ Workflow for the conversion of FASTQ files to unmapped BAM files, which can be u
 
 Source GATK version of this workflow can be found at the [GATK GitHub repository](https://github.com/gatk-workflows/seq-format-conversion) for sequence conversion workflows.
 
+If your samples are paired reads in FASTQ format, use the paired-fastq-to-ubam.wdl. If you have multiple FASTQ pairs that require conversion, use the multi-paired-fastq-to-ubam.wdl for your convenience. 
+
 ---
 
 **fastq-to-ubam.inputs.json:** 

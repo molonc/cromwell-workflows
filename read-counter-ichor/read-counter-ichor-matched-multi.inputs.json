@@ -39,10 +39,10 @@
   ], 
   
   "ReadCounterIchor.ichor_references": {
-    "gc_wig": "gatk9bd222534f548f/inputs/ichor-refs/gc_hg38_1000kb.wig", 
-    "map_wig": "gatk9bd222534f548f/inputs/ichor-refs/map_hg38_1000kb.wig", 
-    "centromere": "gatk9bd222534f548f/inputs/ichor-refs/GRCh38.GCA_000001405.2_centromere_acen.txt", 
-    "input_r_script": "gatk9bd222534f548f/inputs/runIchorCNA.R"
+    "gc_wig": "coaf3b65459446be3/inputs/ichor-refs/gc_hg38_1000kb.wig", 
+    "map_wig": "coaf3b65459446be3/inputs/ichor-refs/map_hg38_1000kb.wig", 
+    "centromere": "coaf3b65459446be3/inputs/ichor-refs/GRCh38.GCA_000001405.2_centromere_acen.txt", 
+    "input_r_script": "coaf3b65459446be3/inputs/ichor-refs/runIchorCNA.R"
   }, 
 
   "ReadCounterIchor.ichor_inputs": {

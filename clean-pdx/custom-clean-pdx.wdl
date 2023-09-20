@@ -271,7 +271,7 @@ task SamToFastqAndBwaMem {
 
   # Sometimes the output is larger than the input, or a task can spill to disk.
   # In these cases we need to account for the input (1) and the output (1.5) or the input(1), the output(1), and spillage (.5).
-  Float disk_multiplier = 2.5
+  Float disk_multiplier = 3
   Int disk_size = ceil(unmapped_bam_size + 16 + (disk_multiplier * unmapped_bam_size) + 200)
 
 	command <<<
@@ -294,8 +294,8 @@ task SamToFastqAndBwaMem {
 		docker: gotc_docker
 		preemptible: true
 		maxRetries: preemptible_tries
-		memory: "24 GB"
-		cpu: 18
+		memory: "36 GB" # prev 24
+		cpu: 32 # prev 18
 		disk: disk_size + " GB"
 	}
 
@@ -375,8 +375,8 @@ task FilterReads {
 
 	runtime {
 		docker: gotc_docker
-		memory: "16 GB"
-		cpu: 16
+		memory: "24 GB"
+		cpu: 24
 		disk: disk_size + " GB"
 		preemptible: true
 		maxRetries: preemptible_tries
@@ -498,9 +498,9 @@ task FinalSort {
 
   runtime {
     docker: gotc_docker
-    memory: "24 GB"
+    memory: "32 GB"
     disk: disk_size + " GB"
-    cpu: 18
+    cpu: 24
     preemptible: true
     maxRetries: preemptible_tries
   }

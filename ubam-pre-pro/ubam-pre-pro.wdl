@@ -27,7 +27,7 @@ version 1.0
 ## licensing information pertaining to the included programs.
 ## 
 ## UPDATE NOTES :
-## Last Updated: August 22, 2023 by Kelly Zhang (Aparicio Lab) - added GetBamHeader task
+## Last Updated: September 20, 2023 by Matthew Cho (Aparicio Lab) - fixed bug in GetBamHeader task
 ##
 ## This pipeline has been modified from its original, which can be found at 
 ## https://github.com/microsoft/gatk4-genome-processing-pipeline-azure. Major changes include
@@ -205,7 +205,7 @@ task GetBamHeader {
   Int disk = ceil(size(input_bam, "GB") * 2)
 
   command <<<
-    samtools view -H > ~{output_name}
+    samtools view -H input_bam > ~{output_name}
   >>>
 
   runtime {

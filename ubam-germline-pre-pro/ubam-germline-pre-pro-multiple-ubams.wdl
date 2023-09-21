@@ -257,7 +257,7 @@ task GetBamHeader {
   Int disk = ceil(size(input_bam, "GB") * 2)
 
   command <<<
-    samtools view -H > ~{output_name}
+    samtools view -H ~{input_bam}> ~{output_name}
   >>>
 
   runtime {

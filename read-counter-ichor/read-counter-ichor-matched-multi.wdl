@@ -83,7 +83,8 @@ workflow ReadCounterIchor {
 		IchorReferences ichor_references
 		IchorInputInfo ichor_inputs
 
-		String read_docker = "apariciobioinformaticscoop/ichorcna-updated-packages:latest"
+		String read_docker = "apariciobioinformaticscoop/ichor-read-counter:latest"
+		String ichor_docker = "apariciobioinformaticscoop/ichorcna-updated-packages:latest"
 	}
 
 	meta {allowNestedInputs: true}
@@ -118,7 +119,7 @@ workflow ReadCounterIchor {
 				map_wig = ichor_references.map_wig, 
 				centromere = ichor_references.centromere,
 				input_r_script = ichor_references.input_r_script, 
-				docker = read_docker 
+				docker = ichor_docker 
 		}
 	}
 
@@ -126,17 +127,17 @@ workflow ReadCounterIchor {
 		File normal_wig = normalRc.output_wig
 		Array[File] tumor_wig = tumorRc.output_wig 
 
-		Array[File] bias = ichorCNA.bias
-		Array[File] correct = ichorCNA.correct
-		Array[File] genome_wide = ichorCNA.genome_wide
-		Array[File] genome_wide_all_sols = ichorCNA.genome_wide_all_sols
-		Array[File] tpdf = ichorCNA.tpdf
+		Array[File?] bias = ichorCNA.bias
+		Array[File?] correct = ichorCNA.correct
+		Array[File?] genome_wide = ichorCNA.genome_wide
+		Array[File?] genome_wide_all_sols = ichorCNA.genome_wide_all_sols
+		Array[File?] tpdf = ichorCNA.tpdf
 		
-		Array[File] corrected_depth = ichorCNA.corrected_depth
-		Array[File] cna = ichorCNA.cna
-		Array[File] segTxt = ichorCNA.segTxt
-		Array[File] seg = ichorCNA.seg
-		Array[File] rdata = ichorCNA.rdata
+		Array[File?] corrected_depth = ichorCNA.corrected_depth
+		Array[File?] cna = ichorCNA.cna
+		Array[File?] segTxt = ichorCNA.segTxt
+		Array[File?] seg = ichorCNA.seg
+		Array[File?] rdata = ichorCNA.rdata
 	}
 }
 
@@ -194,7 +195,8 @@ task ichorCNA {
 		--maxCN "5" \
 		--scStates "c(1,3)" \
 		--txnE "0.9999" \
-		--txnStrength "10000"
+		--txnStrength "10000" \
+		--lambda "c(1500,1500,1500,1500)"
 	>>>
 
 	runtime {
@@ -206,18 +208,18 @@ task ichorCNA {
 	}
 
 	output {
-		File genome_wide = "~{library_ID}/~{library_ID}_genomeWide.pdf"
-		File genome_wide_all_sols = "~{library_ID}/~{library_ID}_genomeWide_all_sols.pdf"
-		File tpdf = "~{library_ID}/~{library_ID}_tpdf.pdf"
-		File bias = "~{library_ID}/~{library_ID}_bias.pdf"
-		File correct = "~{library_ID}/~{library_ID}_correct.pdf"
+		File? genome_wide = "~{library_ID}/~{library_ID}_genomeWide.pdf"
+		File? genome_wide_all_sols = "~{library_ID}/~{library_ID}_genomeWide_all_sols.pdf"
+		File? tpdf = "~{library_ID}/~{library_ID}_tpdf.pdf"
+		File? bias = "~{library_ID}/~{library_ID}_bias.pdf"
+		File? correct = "~{library_ID}/~{library_ID}_correct.pdf"
 
-		File corrected_depth = "~{library_ID}.correctedDepth.txt"
-		File cna = "~{library_ID}.cna.seg"
-		File params = "~{library_ID}.params.txt"
-		File segTxt = "~{library_ID}.seg.txt"
-		File seg = "~{library_ID}.seg"
-		File rdata = "~{library_ID}.RData" 
+		File? corrected_depth = "~{library_ID}.correctedDepth.txt"
+		File? cna = "~{library_ID}.cna.seg"
+		File? params = "~{library_ID}.params.txt"
+		File? segTxt = "~{library_ID}.seg.txt"
+		File? seg = "~{library_ID}.seg"
+		File? rdata = "~{library_ID}.RData" 
 	}
 }
 

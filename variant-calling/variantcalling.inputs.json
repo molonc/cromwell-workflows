@@ -1,0 +1,18 @@
+{
+  "VariantCalling.base_file_name": "sample_ID",
+  "VariantCalling.final_vcf_base_name": "sample_ID",
+
+  "VariantCalling.input_bam": "/filepath/to/input.bam",
+  "VariantCalling.input_bam_index": "/filepath/to/input.bam.bai",
+
+  "VariantCalling.calling_interval_list": "/coaf3b65459446be3/inputs/pre-pro-refs/wgs_calling_regions.hg38.interval_list",
+  "VariantCalling.haplotype_scatter_count": 10,
+  "VariantCalling.break_bands_at_multiples_of": 100000,
+  "VariantCalling.ref_dict": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.dict",
+  "VariantCalling.ref_fasta": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta",
+  "VariantCalling.ref_fasta_index": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.fai",
+  "VariantCalling.dbsnp_vcf": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.dbsnp138.vcf",
+  "VariantCalling.dbsnp_vcf_index": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.dbsnp138.vcf.idx",
+  "VariantCalling.evaluation_interval_list": "/coaf3b65459446be3/inputs/pre-pro-refs/wgs_evaluation_regions.hg38.interval_list",
+  "VariantCalling.agg_preemptible_tries": 3
+}

@@ -1,0 +1,6 @@
+{
+  "WorkflowUrl": "https://coaf3b65459446be3.blob.core.windows.net/workflow-templates/variant-calling/VariantCalling.wdl",
+  "WorkflowInputsUrl": "https://coaf3b65459446be3.blob.core.windows.net/inputs/A95552/A95552-variantcalling.inputs.json",
+  "WorkflowOptionsUrl": null,
+  "WorkflowDependenciesUrl": null
+}

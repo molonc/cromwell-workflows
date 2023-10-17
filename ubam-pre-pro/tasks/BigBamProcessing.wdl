@@ -359,7 +359,7 @@ task GatherSortedBamFiles {
   }
 
   # Multiply the input bam size by two to account for the input and output
-  Int disk_size = ceil(3 * total_input_size) + 100 # from 2x to 3x
+  Int disk_size = ceil(3 * total_input_size) + 100
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \
@@ -373,7 +373,7 @@ task GatherSortedBamFiles {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "6 GB" # from 3 to 6
+    memory: "6 GB"
     disk: disk_size + " GB"
   }
   output {
@@ -395,8 +395,7 @@ task GatherUnsortedBamFiles {
   }
 
   # Multiply the input bam size by two to account for the input and output
-  Int disk_size = ceil(3 * total_input_size) + 100 # from 2x to 3x
-
+  Int disk_size = ceil(3 * total_input_size) + 100
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \
@@ -410,7 +409,7 @@ task GatherUnsortedBamFiles {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "6 GB" # from 3 to 6
+    memory: "6 GB"
     disk: disk_size + " GB"
   }
   output {

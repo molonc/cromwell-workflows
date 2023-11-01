@@ -1,0 +1,6 @@
+{
+  "WorkflowUrl": "https://coaf3b65459446be3.blob.core.windows.net/workflow-templates/wasp/wasp.wdl",
+  "WorkflowInputsUrl": "https://coaf3b65459446be3.blob.core.windows.net/inputs/XXX/XXX-wasp.inputs.json",
+  "WorkflowOptionsUrl": null,
+  "WorkflowDependenciesUrl": null
+}

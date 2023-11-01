@@ -1,27 +1,36 @@
 version 1.0
 
-# this is taken from the working version (august 29, 2023), but also has an added task to actually get the SA ids, which hasn't been tested yet. 
-# for find_intersecting_snps.py, all the imported python scripts (util + snptable) has been compiled into one big file.  
+# for find_intersecting_snps.py, all the imported python scripts (util + snptable) has been 
 # WORKFLOW DEFINITION
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/GermlineStructs.wdl"
+
 workflow WaspMapping {
     input {
         String study # metadata for clean-up automation 
         
         File input_vcf
+        File input_vcf_index
         File input_bam
+        File input_bai
         String sample_name
+        String output_dir
+        String sa_id_tumor
+        String sa_id_normal
 
         String read_group
-        File reference_fasta
+        ReferenceFasta references
         File chrom_info
 
         File intersecting_snps_script
         File filter_remapped_script
     }
 
+    File reference_fasta = references.ref_fasta
+
     call compressVcf {
         input: 
-            vcf = input_vcf, 
+            vcf = input_vcf,
+            vcf_index = input_vcf_index, 
             sample_name = sample_name, 
             chrom_info = chrom_info, 
             snp_index_name = sample_name + ".snp_index.h5",
@@ -47,20 +56,24 @@ workflow WaspMapping {
 
     call MakeSampleNameTxt {
         input: 
-            chr_1_vcf = compressVcf.output_vcfs[0]
+            sample_name = sample_name,
+            sa_id_tumor = sa_id_tumor,
+            sa_id_normal = sa_id_normal          
     }
 
     call FindIntersectingSnpsPairedEnd {
         input: 
-            input_bam = input_bam, 
+            input_bam = input_bam,
+            input_bai = input_bai, 
             snp_index = compressVcf.snp_index, 
             snp_tab = compressVcf.snp_tab, 
             haplotype = compressVcf.haplotype, 
             samples_txt = MakeSampleNameTxt.txt_file, 
-            fastq1_name = sample_name + ".to.remap.fq1.gz", 
-            fastq2_name = sample_name + ".to.remap.fq2.gz", 
+            fastq1_name = sample_name + ".remap.fq1.gz", 
+            fastq2_name = sample_name + ".remap.fq2.gz", 
             keep_bam = sample_name + ".keep.bam", 
             remap_bam = sample_name + ".to.remap.bam",
+            output_dir = output_dir,
             intersecting_snps_script = intersecting_snps_script
     }
 
@@ -69,7 +82,8 @@ workflow WaspMapping {
             input_fastq1 = FindIntersectingSnpsPairedEnd.fastq1,
             input_fastq2 = FindIntersectingSnpsPairedEnd.fastq2,
             read_group = read_group,
-            reference_fasta = reference_fasta, 
+            reference_fasta = reference_fasta,
+            references = references, 
             output_file_name = sample_name + ".realigned.bam"
     }
 
@@ -91,7 +105,7 @@ workflow WaspMapping {
     call SortBam {
         input: 
             merged_bam = MergeBam.merged_bam, 
-            output_file_name = sample_name + "keep.merge.sort.bam"
+            output_file_name = sample_name + ".keep.merge.sort.bam"
     }
 
     call IndexBam {
@@ -115,6 +129,7 @@ workflow WaspMapping {
 task compressVcf {
     input {
         File vcf
+        File vcf_index
         String sample_name
         String file_name = basename(vcf) + ".gz"
         String tbi_name = basename(vcf) + ".gz.tbi"
@@ -128,9 +143,6 @@ task compressVcf {
     Int disk_size = ceil(size(vcf, "GB") * 4)
 
     command <<<
-        # compress and index vcf
-        bgzip -c ~{vcf} > ~{file_name}
-        tabix -p vcf ~{file_name}
         # split vcf by chromosome 
         mkdir vcf_by_chr
         for i in {1..22} 
@@ -157,8 +169,6 @@ task compressVcf {
     }
 
     output {
-        File compressed_vcf = "~{file_name}"
-        File vcf_index = "~{tbi_name}"
         Array[File] output_vcfs = glob("vcf_by_chr/*.het.vcf.gz") 
         File snp_index = "~{snp_index_name}" # keep this output
         File snp_tab = "~{snp_tab_name}" # keep this output
@@ -186,7 +196,7 @@ task compressVcf {
 #     >>>
 
 #     runtime {
-#         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
+#         docker: "apariciobioinformaticscoop/wasp-mapping:sept12"
 #         disk: disk_size + " GB"
 #         cpu: 12
 #         memory: "12 GB"
@@ -223,7 +233,7 @@ task compressVcf {
 #     >>>
 
 #     runtime {
-#         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
+#         docker: "apariciobioinformaticscoop/wasp-mapping:sept12"
 #         disk: disk_size + " GB"
 #         cpu: 16
 #         memory: "16 GB"
@@ -240,7 +250,9 @@ task compressVcf {
 
 task MakeSampleNameTxt {
     input {
-        File chr_1_vcf
+        String sample_name
+        String sa_id_tumor
+        String sa_id_normal
         String output_txt_file = "samples.txt"
     }
 
@@ -250,14 +262,9 @@ task MakeSampleNameTxt {
     # >>>
 
     # heredoc command: 
-    # command <<<
-    #     echo "SA1145N" > ~{output_txt_file}
-    #     echo "SA1145X1" >> ~{output_txt_file}
-    # >>>
-
     command <<<
-        awk '{FS="="}; /##normal_sample/ {print $2}' ~{chr_1_vcf} >> ~{output_txt_file}
-        awk '{FS="="}; /##tumor_sample/ {print $2}' ~{chr_1_vcf} >> ~{output_txt_file}
+        echo ~{sa_id_normal} > ~{output_txt_file}
+        echo ~{sa_id_tumor} >> ~{output_txt_file}
     >>>
 
     runtime {
@@ -278,6 +285,7 @@ task MakeSampleNameTxt {
 task FindIntersectingSnpsPairedEnd {
     input {
         File input_bam
+        File input_bai
         File snp_index
         File snp_tab
         File haplotype
@@ -286,11 +294,11 @@ task FindIntersectingSnpsPairedEnd {
         String fastq2_name
         String keep_bam
         String remap_bam
-        String output_dir = "find_intersecting_snps"
+        String output_dir
         File intersecting_snps_script
     }
 
-    Float multiplier = 2.5
+    Float multiplier = 15
     Int disk_size = ceil(size(input_bam, "GB") * multiplier) + 100 # also bumped up runtime metrics
 
     # BAM_PATH=$(pwd ~{input_bam})/$(ls ~{input_bam})
@@ -300,7 +308,6 @@ task FindIntersectingSnpsPairedEnd {
         python ~{intersecting_snps_script} \
         --is_paired_end \
         --is_sorted \
-        --output_dir ~{output_dir} \
         --snp_tab ~{snp_tab} \
         --snp_index ~{snp_index} \
         --samples ~{samples_txt} \
@@ -308,10 +315,10 @@ task FindIntersectingSnpsPairedEnd {
     >>>
 
     runtime {
-        docker: "apariciobioinformaticscoop/wasp-mapping:latest"
+        docker: "apariciobioinformaticscoop/wasp-mapping:sept12"
         disk: disk_size + " GB" 
-        cpu: 24
-        memory: "24 GB"
+        cpu: 40 # changed from 24
+        memory: "64 GB" # changed from 24
         preemptible: true
         maxRetries: 3
     }
@@ -334,6 +341,7 @@ task BwaAlignment {
         File input_fastq2
         String read_group
         File reference_fasta
+        ReferenceFasta references
         String output_file_name
     }
 
@@ -378,7 +386,7 @@ task FilterRemappedReads {
     >>>
 
     runtime {
-        docker: "apariciobioinformaticscoop/wasp-mapping:latest"
+        docker: "apariciobioinformaticscoop/wasp-mapping:sept12"
         disk: disk_size + " GB"
         cpu: 18
         memory: "24 GB"
@@ -462,7 +470,7 @@ task IndexBam {
     Int disk_size = ceil(size(sorted_bam, "GB") * multiplier) + 20 
 
     command <<<
-        samtools index ~{sorted_bam}
+        samtools index -b ~{sorted_bam} ~{output_file_name}
     >>>
 
     runtime {

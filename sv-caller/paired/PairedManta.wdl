@@ -2,7 +2,7 @@ version 1.0
 
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/GermlineStructs.wdl"
 
-workflow Manta {
+workflow PairedManta {
 	input {
 		String tumor_name
 		File tumor_bam

@@ -31,12 +31,12 @@ workflow PairedNameSort {
 	}
 
 	output {
-		File out_tumor_bam = Sort.out_bam_tumor 
-		File out_normal_bam = Sort.out_bam_normal
+		File out_tumor_bam = PairedSort.out_bam_tumor 
+		File out_normal_bam = PairedSort.out_bam_normal
 	}
 }
 
-task Sort {
+task PairedSort {
 	input {
 		File tumor_bam
 		File tumor_bai

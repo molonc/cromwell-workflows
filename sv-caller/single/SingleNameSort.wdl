@@ -24,11 +24,11 @@ workflow SingleNameSort {
 	}
 
 	output {
-		File out_tumor_bam = PairedSort.out_bam_tumor 
+		File out_tumor_bam = SingleSort.out_bam_tumor 
 	}
 }
 
-task PairedSort {
+task SingleSort {
 	input {
 		File tumor_bam
 		File tumor_bai

@@ -29,6 +29,11 @@ workflow PairedNameSort {
 			normal_bai = normal_bai,
 			output_normal_name = normal_name + ".sort.bam"
 	}
+
+	output {
+		File out_tumor_bam = PairedSort.out_bam_tumor 
+		File out_normal_bam = PairedSort.out_bam_normal
+	}
 }
 
 task PairedSort {

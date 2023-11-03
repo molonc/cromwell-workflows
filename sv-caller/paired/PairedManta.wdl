@@ -34,6 +34,10 @@ workflow Manta {
             docker = docker
     }
 
+    output {
+        File outfile = Paired.manta_out
+    }
+
 }
 
 task Paired {

@@ -41,6 +41,10 @@ workflow PairedLumpy {
             param = param
 
     }
+
+    output {
+        File outfile = Paired.lumpy_out
+    }
 }
 
 task Paired {

@@ -48,6 +48,10 @@ workflow PairedGridss {
             normal_name = normal_name  
     }
 
+    output {
+        File outfile = PairedFilter.gridss_out
+    }
+
 }
 
 task Paired {

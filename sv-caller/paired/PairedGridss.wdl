@@ -49,7 +49,8 @@ workflow PairedGridss {
     }
 
     output {
-        File outfile = PairedFilter.gridss_out
+        File filtered = PairedFilter.gridss_out
+        File unfiltered = Paired.gridss_out
     }
 
 }

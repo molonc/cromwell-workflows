@@ -35,7 +35,8 @@ workflow PairedManta {
     }
 
     output {
-        File outfile = Paired.manta_out
+        File filtered = Paired.manta_out
+        File unfiltered - Paired.manta_unfil
     }
 
 }
@@ -81,5 +82,6 @@ task Paired {
 
     output {
         File manta_out = '~{tumor_name + "_" + normal_name + "_manta.vcf"}'
+        File manta_unfil = "./results/variants/somaticSV.vcf.gz"
     }
 }

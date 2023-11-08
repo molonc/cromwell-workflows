@@ -43,7 +43,8 @@ workflow PairedLumpy {
     }
 
     output {
-        File outfile = Paired.lumpy_out
+        File filtered = Paired.lumpy_out
+        File unfiltered = Paired.lumpy_unfil
     }
 }
 
@@ -95,5 +96,6 @@ task Paired {
 
     output {
         File lumpy_out = '~{tumor_name + "_" + normal_name + "_lumpy.vcf"}'
+        File lumpy_unfil = '~{tumor_name + "_" + normal_name + "_lumpy.unfiltered.vcf"}'
     }
 }

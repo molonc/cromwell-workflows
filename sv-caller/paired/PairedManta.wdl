@@ -36,7 +36,7 @@ workflow PairedManta {
 
     output {
         File filtered = Paired.manta_out
-        File unfiltered - Paired.manta_unfil
+        File unfiltered = Paired.manta_unfil
     }
 
 }

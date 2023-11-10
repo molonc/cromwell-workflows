@@ -102,7 +102,7 @@ task PairedFilter {
 	}
 
     command <<<
-        bcftools filter -O v -o ~{tumor_name + "_" + normal_name + "_gridss.vcf"} -i "FORMAT/QUAL[0] == 0 && FILTER == '.'" ~{input_file}
+        bcftools filter -O v -o ~{tumor_name + "_" + normal_name + "_gridss.vcf"} -i "FILTER == 'PASS'" ~{input_file}
     >>>
 
     runtime {

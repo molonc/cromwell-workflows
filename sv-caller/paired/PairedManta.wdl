@@ -68,8 +68,9 @@ task Paired {
             -m local \
             -j 24 \
             -g 60
+        cp ./results/variants/somaticSV.vcf.gz ./
         # SV quality filtering
-        bcftools filter -O v -o ~{tumor_name + "_" + normal_name + "_manta.vcf"} -i "FILTER == 'PASS'" ./results/variants/somaticSV.vcf.gz
+        bcftools filter -O v -o ~{tumor_name + "_" + normal_name + "_manta.vcf"} -i "FILTER == 'PASS'" ./somaticSV.vcf.gz
     >>>
 
     runtime {
@@ -82,6 +83,6 @@ task Paired {
 
     output {
         File manta_out = '~{tumor_name + "_" + normal_name + "_manta.vcf"}'
-        File manta_unfil = "./results/variants/somaticSV.vcf.gz"
+        File manta_unfil = "somaticSV.vcf.gz"
     }
 }

@@ -9,7 +9,6 @@ workflow SingleNameSort {
 		File tumor_bai
 
         ReferenceFasta references
-        String docker
 	}
 
     File reference_fasta = references.ref_fasta

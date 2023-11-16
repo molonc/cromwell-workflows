@@ -9,7 +9,6 @@ workflow SingleManta {
 		File tumor_bai
 
         ReferenceFasta references
-        String docker
 	}
 
     File reference_fasta = references.ref_fasta
@@ -23,12 +22,18 @@ workflow SingleManta {
             tumor_bam = tumor_bam,
             tumor_bai = tumor_bai,
             reference_fasta = reference_fasta,
-            reference_fai = references,
-            docker = docker
-		}
+            reference_fai = references
+	}
+
+    call Rename_Unfil {
+        input:
+            unfiltered = Single.manta_unfil,
+            tumor_name = tumor_name
+    }
 
     output {
-        File outfile = Single.manta_out
+        File filtered = Single.manta_out
+        File unfiltered = Rename_Unfil.manta_unfil
     }
 
 }
@@ -54,16 +59,17 @@ task Single {
         ./runWorkflow.py \
             -m local \
             -j 20 \
-            -g 60 \
+            -g 60
+        cp ./results/variants/tumorSV.vcf.gz ./
         # SV quality filtering
         bcftools filter \
             -O v \
             -o ~{tumor_name + "_manta.vcf"} \
-            -i "FILTER == 'PASS'" ./results/variants/tumorSV.vcf.gz
+            -i "FILTER == 'PASS'" ./tumorSV.vcf.gz
     >>>
 
     runtime {
-        docker: docker
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
         cpu: 24
         memory: "64 GB"
         preemptible: true
@@ -72,5 +78,31 @@ task Single {
 
     output {
         File manta_out = '~{tumor_name + "_manta.vcf"}'
+        File manta_unfil = "tumorSV.vcf.gz"
+    }
+}
+
+task Rename_Unfil {
+	input {
+		File unfiltered
+
+        String tumor_name
+	}
+
+	command <<<
+        gunzip tumorSV.vcf.gz
+        mv tumorSV.vcf ~{tumor_name + "_manta.unfiltered.vcf"}
+    >>>
+
+    runtime {
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
+        cpu: 1
+        memory: "4 GB"
+        preemptible: true
+        maxRetries: 0
+    }
+
+    output {
+        File manta_unfil = '~{tumor_name + "_manta.unfiltered.vcf"}'
     }
 }

@@ -12,7 +12,6 @@ workflow SingleLumpy {
 		File tumor_bai
 
         ReferenceFasta references
-        String docker
 	}
 
     File reference_fasta = references.ref_fasta
@@ -30,12 +29,12 @@ workflow SingleLumpy {
             tumor_bai = tumor_bai,
             reference_fasta = reference_fasta,
             reference_fai = references,
-            docker = docker,
             param = param
 	}
 
     output {
-        File outfile = Single.lumpy_out
+        File filtered = Single.lumpy_out
+        File unfiltered = Single.lumpy_unfil
     }
 }
 
@@ -47,7 +46,6 @@ task Single {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
 
         String? param
     }
@@ -76,7 +74,7 @@ task Single {
     >>>
     
     runtime {
-        docker: docker
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
         disk: disk_size + " GB"
         cpu: 24
         memory: "64 GB"
@@ -86,5 +84,6 @@ task Single {
 
     output {
         File lumpy_out =  '~{tumor_name + "_lumpy.vcf"}'
+        File lumpy_unfil = '~{tumor_name + "_lumpy.unfiltered.vcf"}'
     }
 }

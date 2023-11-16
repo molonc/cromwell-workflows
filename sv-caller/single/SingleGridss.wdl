@@ -11,7 +11,6 @@ workflow SingleGridss {
 		File tumor_bai
 
         ReferenceFasta references
-        String docker
     }
 
     File reference_fasta = references.ref_fasta
@@ -30,7 +29,6 @@ workflow SingleGridss {
                 tumor_bai = tumor_bai,
                 reference_fasta = reference_fasta,
                 reference_fai = references,
-                docker = docker,
                 param = param
         }
 
@@ -41,7 +39,8 @@ workflow SingleGridss {
         }
 
     output {
-        File outfile = SingleFilter.gridss_out
+        File filtered = SingleFilter.gridss_out
+        File unfiltered = Single.gridss_unfil
     }
 
 }
@@ -56,7 +55,6 @@ task Single {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
         String? param
 	}
 
@@ -77,6 +75,7 @@ task Single {
 
     output {
         File gridss_out = '~{tumor_name + "_gridss.unfiltered.vcf"}'
+        File gridss_unfil = '~{tumor_name + "_gridss.unfiltered.vcf"}'
     }
 }
 

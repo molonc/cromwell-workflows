@@ -13,7 +13,6 @@ workflow PairedManta {
 		File normal_bai
 
         ReferenceFasta references
-        String docker
 	}
 
     File reference_fasta = references.ref_fasta
@@ -30,13 +29,19 @@ workflow PairedManta {
             normal_bam = normal_bam,
             normal_bai = normal_bai,
             reference_fasta = reference_fasta,
-            reference_fai = references,
-            docker = docker
+            reference_fai = references
+    }
+
+    call Rename_Unfil {
+        input:
+            unfiltered = Paired.manta_unfil,
+            tumor_name = tumor_name,
+            normal_name = normal_name
     }
 
     output {
         File filtered = Paired.manta_out
-        File unfiltered = Paired.manta_unfil
+        File unfiltered = Rename_Unfil.manta_unfil
     }
 
 }
@@ -53,7 +58,6 @@ task Paired {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
 	}
 
 	command <<<
@@ -74,7 +78,7 @@ task Paired {
     >>>
 
     runtime {
-        docker: docker
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
         cpu: 24
         memory: "64 GB"
         preemptible: true
@@ -84,5 +88,31 @@ task Paired {
     output {
         File manta_out = '~{tumor_name + "_" + normal_name + "_manta.vcf"}'
         File manta_unfil = "somaticSV.vcf.gz"
+    }
+}
+
+task Rename_Unfil {
+	input {
+		File unfiltered
+
+        String tumor_name
+        String normal_name
+	}
+
+	command <<<
+        gunzip somaticSV.vcf.gz
+        mv somaticSV.vcf ~{tumor_name + "_" + normal_name + "_manta.unfiltered.vcf"}
+    >>>
+
+    runtime {
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
+        cpu: 1
+        memory: "4 GB"
+        preemptible: true
+        maxRetries: 0
+    }
+
+    output {
+        File manta_unfil = '~{tumor_name + "_" + normal_name + "_manta.unfiltered.vcf"}'
     }
 }

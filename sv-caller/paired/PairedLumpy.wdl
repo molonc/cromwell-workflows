@@ -16,7 +16,6 @@ workflow PairedLumpy {
 		File normal_bai
 
         ReferenceFasta references
-        String docker
 	}
 
     File reference_fasta = references.ref_fasta
@@ -37,7 +36,6 @@ workflow PairedLumpy {
             normal_bai = normal_bai,
             reference_fasta = reference_fasta,
             reference_fai = references,
-            docker = docker,
             param = param
 
     }
@@ -60,7 +58,6 @@ task Paired {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
 
         String? param
 	}
@@ -86,7 +83,7 @@ task Paired {
     >>>
 
     runtime {
-        docker: docker
+        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
         disk: disk_size + " GB"
         cpu: 24
         memory: "64 GB"

@@ -15,7 +15,6 @@ workflow PairedGridss {
 		File normal_bai
 
         ReferenceFasta references
-        String docker
     }
 
     File reference_fasta = references.ref_fasta
@@ -37,7 +36,6 @@ workflow PairedGridss {
             normal_bai = normal_bai,
             reference_fasta = reference_fasta,
             reference_fai = references,
-            docker = docker,
             param = param
     }
 
@@ -69,7 +67,6 @@ task Paired {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
         String? param
 	}
 

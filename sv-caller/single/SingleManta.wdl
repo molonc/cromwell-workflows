@@ -46,7 +46,6 @@ task Single {
 
 		File reference_fasta
         ReferenceFasta reference_fai
-        String docker
 	}
 
 	command <<<

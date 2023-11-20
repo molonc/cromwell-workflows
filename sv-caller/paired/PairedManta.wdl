@@ -32,16 +32,9 @@ workflow PairedManta {
             reference_fai = references
     }
 
-    call Rename_Unfil {
-        input:
-            unfiltered = Paired.manta_unfil,
-            tumor_name = tumor_name,
-            normal_name = normal_name
-    }
-
     output {
         File filtered = Paired.manta_out
-        File unfiltered = Rename_Unfil.manta_unfil
+        File unfiltered = Paired.manta_unfil
     }
 
 }
@@ -75,6 +68,9 @@ task Paired {
         cp ./results/variants/somaticSV.vcf.gz ./
         # SV quality filtering
         bcftools filter -O v -o ~{tumor_name + "_" + normal_name + "_manta.vcf"} -i "FILTER == 'PASS'" ./somaticSV.vcf.gz
+
+        gunzip ./somaticSV.vcf.gz
+        mv ./somaticSV.vcf ~{tumor_name + "_" + normal_name + "_manta.unfiltered.vcf"}
     >>>
 
     runtime {
@@ -87,32 +83,6 @@ task Paired {
 
     output {
         File manta_out = '~{tumor_name + "_" + normal_name + "_manta.vcf"}'
-        File manta_unfil = "somaticSV.vcf.gz"
-    }
-}
-
-task Rename_Unfil {
-	input {
-		File unfiltered
-
-        String tumor_name
-        String normal_name
-	}
-
-	command <<<
-        gunzip somaticSV.vcf.gz
-        mv somaticSV.vcf ~{tumor_name + "_" + normal_name + "_manta.unfiltered.vcf"}
-    >>>
-
-    runtime {
-        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
-        cpu: 1
-        memory: "4 GB"
-        preemptible: true
-        maxRetries: 0
-    }
-
-    output {
         File manta_unfil = '~{tumor_name + "_" + normal_name + "_manta.unfiltered.vcf"}'
     }
 }

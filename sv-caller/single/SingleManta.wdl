@@ -25,15 +25,9 @@ workflow SingleManta {
             reference_fai = references
 	}
 
-    call Rename_Unfil {
-        input:
-            unfiltered = Single.manta_unfil,
-            tumor_name = tumor_name
-    }
-
     output {
         File filtered = Single.manta_out
-        File unfiltered = Rename_Unfil.manta_unfil
+        File unfiltered = Single.manta_unfil
     }
 
 }
@@ -65,6 +59,9 @@ task Single {
             -O v \
             -o ~{tumor_name + "_manta.vcf"} \
             -i "FILTER == 'PASS'" ./tumorSV.vcf.gz
+
+        gunzip ./tumorSV.vcf.gz
+        mv ./tumorSV.vcf ~{tumor_name + "_manta.unfiltered.vcf"}
     >>>
 
     runtime {
@@ -77,31 +74,6 @@ task Single {
 
     output {
         File manta_out = '~{tumor_name + "_manta.vcf"}'
-        File manta_unfil = "tumorSV.vcf.gz"
-    }
-}
-
-task Rename_Unfil {
-	input {
-		File unfiltered
-
-        String tumor_name
-	}
-
-	command <<<
-        gunzip tumorSV.vcf.gz
-        mv tumorSV.vcf ~{tumor_name + "_manta.unfiltered.vcf"}
-    >>>
-
-    runtime {
-        docker: "apariciobioinformaticscoop/sv-caller-c:latest"
-        cpu: 1
-        memory: "4 GB"
-        preemptible: true
-        maxRetries: 0
-    }
-
-    output {
         File manta_unfil = '~{tumor_name + "_manta.unfiltered.vcf"}'
     }
 }

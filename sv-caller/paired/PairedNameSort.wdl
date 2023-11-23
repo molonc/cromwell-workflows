@@ -55,8 +55,8 @@ task PairedSortOne {
 	runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "32 GB"
+        cpu: 16
+        memory: "64 GB"
         preemptible: true
         maxRetries: 0
     }
@@ -82,8 +82,8 @@ task PairedSortTwo {
 	runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "32 GB"
+        cpu: 16
+        memory: "64 GB"
         preemptible: true
         maxRetries: 0
     }

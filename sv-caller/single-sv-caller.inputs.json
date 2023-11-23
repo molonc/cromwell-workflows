@@ -1,0 +1,24 @@
+{
+  "SVCaller.study": "", 
+
+  "SVCaller.exclude_regions": "false", 
+
+  "SVCaller.tumor_name": "XXX",
+  "SVCaller.tumor_bam": "/coaf3b65459446be3/inputs/XXX/XXX.bam",
+  "SVCaller.tumor_bai": "/coaf3b65459446be3/inputs/XXX/XXX.bai",
+
+  "SVCaller.references": {
+    "ref_dict": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.dict",
+    "ref_fasta": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta",
+    "ref_fasta_index": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.fai",
+    "ref_alt": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.alt",
+    "ref_sa": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.sa",
+    "ref_amb": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.amb",
+    "ref_bwt": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.bwt",
+    "ref_ann": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.ann",
+    "ref_pac": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.pac"
+  },
+  "SVCaller.viola_script_m": "/coaf3b65459446be3/inputs/sv-callers-refs/viola_for_manta.py",
+  "SVCaller.viola_script_l": "/coaf3b65459446be3/inputs/sv-callers-refs/viola_for_lumpy.py",
+  "SVCaller.viola_script_g": "/coaf3b65459446be3/inputs/sv-callers-refs/viola_for_gridss.py"
+}

@@ -62,7 +62,7 @@ task Paired {
         String? param
 	}
 
-    Int disk_size = ceil(size(tumor_bam, "GB") * 4)
+    Int disk_size = ceil(size(tumor_bam, "GB") * 6)
 
     command <<<
         source /opt/conda/bin/activate py2

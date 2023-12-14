@@ -53,6 +53,8 @@ task Paired {
         ReferenceFasta reference_fai
 	}
 
+    Int disk_size = ceil(size(tumor_bam, "GB") * 6)
+
 	command <<<
         source /opt/conda/bin/activate py2
 
@@ -75,6 +77,7 @@ task Paired {
 
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-c:latest"
+        disk: disk_size + " GB"
         cpu: 24
         memory: "64 GB"
         preemptible: true

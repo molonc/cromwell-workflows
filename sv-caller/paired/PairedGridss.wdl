@@ -70,7 +70,7 @@ task Paired {
         String? param
 	}
 
-    Int disk_size = ceil(size(tumor_bam, "GB") * 4)  
+    Int disk_size = ceil(size(tumor_bam, "GB") * 6)  
 
     command <<<
         gridss -r ~{reference_fasta} -o ~{tumor_name + "_"+ normal_name + "_gridss.unfiltered.vcf"} -a ./gridss_assembly.bam ~{normal_bam} ~{tumor_bam}

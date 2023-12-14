@@ -43,7 +43,7 @@ task Viola_M {
         File viola_script
 	}
 
-    Int disk_size = ceil(size(v_input, "GB") * 4)  
+    Int disk_size = ceil(size(v_input, "GB") * 6)  
     
     command <<<
         python ~{viola_script} ~{v_input}
@@ -52,8 +52,8 @@ task Viola_M {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "32 GB"
+        cpu: 24
+        memory: "64 GB"
         preemptible: true
         maxRetries: 0
     }
@@ -69,7 +69,7 @@ task Viola_G {
         File viola_script
 	}
 
-    Int disk_size = ceil(size(v_input, "GB") * 4)  
+    Int disk_size = ceil(size(v_input, "GB") * 6)  
     
     command <<<
         python ~{viola_script} ~{v_input}
@@ -78,8 +78,8 @@ task Viola_G {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "32 GB"
+        cpu: 24
+        memory: "64 GB"
         preemptible: true
         maxRetries: 0
     }
@@ -95,7 +95,7 @@ task Viola_L {
         File viola_script
 	}
 
-    Int disk_size = ceil(size(v_input, "GB") * 4)  
+    Int disk_size = ceil(size(v_input, "GB") * 6)  
     
     command <<<
         python ~{viola_script} ~{v_input}
@@ -104,8 +104,8 @@ task Viola_L {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "32 GB"
+        cpu: 24
+        memory: "64 GB"
         preemptible: true
         maxRetries: 0
     }

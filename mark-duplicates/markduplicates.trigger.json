@@ -1,0 +1,7 @@
+{
+  "WorkflowUrl": "https://coaf3b65459446be3.blob.core.windows.net/workflow-templates/mark-duplicates/MarkDuplicates.wdl",
+  "WorkflowInputsUrl": "https://coaf3b65459446be3.blob.core.windows.net/inputs/XXX/XXX-mark-duplicates.inputs.json",
+  "WorkflowInputsUrls": null,
+  "WorkflowOptionsUrl": null,
+  "WorkflowDependenciesUrl": null
+}

@@ -1,0 +1,14 @@
+{
+  "CalcBafSignal.study": "non-cascadia",
+  "CalcBafSignal.sample_name": "XXX", 
+  "CalcBafSignal.normal_name": "YYY", 
+
+  "CalcBafSignal.plasma": "/coaf3b65459446be3/inputs/XXX/XXX.WASP.haplotypeCalls.4.het.baf.blacklist.bed",
+  "CalcBafSignal.tumor": "/coaf3b65459446be3/inputs/XXX/ZZZ.haplotypeCalls.4.het.baf.blacklist.bed",
+  "CalcBafSignal.normal": "/coaf3b65459446be3/inputs/XXX/YYY.WASP.haplotypeCalls.4.het.baf.blacklist.bed",
+  "CalcBafSignal.normal_og": "/coaf3b65459446be3/inputs/XXX/YYY.haplotypeCalls.4.het.baf.blacklist.bed",
+
+  "CalcBafSignal.merge_bafs_py": "/coaf3b65459446be3/inputs/mrd-edge-refs/merge_bafs.py",
+  "CalcBafSignal.calc_baf_signal_py": "/coaf3b65459446be3/inputs/mrd-edge-refs/calc_baf_signal.py",
+  "CalcBafSignal.joint_filters_py": "/coaf3b65459446be3/inputs/mrd-edge-refs/joint_filters.py"
+}

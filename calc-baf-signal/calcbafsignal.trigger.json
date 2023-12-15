@@ -1,0 +1,7 @@
+{
+  "WorkflowUrl": "https://coaf3b65459446be3.blob.core.windows.net/workflow-templates/calc-baf-signal/CalcBafSignal.wdl",
+  "WorkflowInputsUrl": "https://coaf3b65459446be3.blob.core.windows.net/inputs/XXX/XXX-calcbafsignal.inputs.json",
+  "WorkflowInputsUrls": null,
+  "WorkflowOptionsUrl": null,
+  "WorkflowDependenciesUrl": null
+}

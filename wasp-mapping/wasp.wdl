@@ -13,6 +13,7 @@ workflow WaspMapping {
         File input_bam
         File input_bai
         String sample_name
+        String normal_name # metadata for clean-up automation 
         String output_dir
         String sa_id_tumor
         String sa_id_normal
@@ -115,10 +116,9 @@ workflow WaspMapping {
     }
 
     output {
-        File keep_bam = FindIntersectingSnpsPairedEnd.keep_bam
-        File kept_bam = FilterRemappedReads.kept_bam
-        File fastq1 = FindIntersectingSnpsPairedEnd.fastq1
-        File fastq2 = FindIntersectingSnpsPairedEnd.fastq2
+        File snp_index = compressVcf.snp_index
+        File snp_tab = compressVcf.snp_tab
+        File haplotype = compressVcf.haplotype
         File sorted_bam = SortBam.sorted_bam
         File sorted_bam_index = IndexBam.bai
     }
@@ -438,8 +438,8 @@ task SortBam {
     }
 
     # based these disk numbers on GATK pre-processing tasks
-    Float sort_sam_disk_multiplier = 3.25
-    Int disk_size = ceil(sort_sam_disk_multiplier * size(merged_bam, "GB")) + 20
+    Float sort_sam_disk_multiplier = 4
+    Int disk_size = ceil(sort_sam_disk_multiplier * size(merged_bam, "GB")) + 60
 
     command <<<
         samtools sort -o ~{output_file_name} ~{merged_bam} -@ 4
@@ -448,8 +448,8 @@ task SortBam {
     runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: disk_size + " GB"
-        cpu: 8
-        memory: "10 GB"
+        cpu: 14
+        memory: "24 GB"
         preemptible: true
         maxRetries: 3
     }

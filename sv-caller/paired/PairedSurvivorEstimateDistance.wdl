@@ -92,7 +92,7 @@ task Merge1 {
         echo ~{input_2} >> inputs.txt
         echo ~{input_3} >> inputs.txt
    
-        SURVIVOR merge inputs.txt 100 1 0 1 0 30 ~{tumor_name + "_" + normal_name + "_merged1.vcf"}
+        SURVIVOR merge inputs.txt 100 1 0 1 1 30 ~{tumor_name + "_" + normal_name + "_merged1.vcf"}
     >>>
 
     runtime {
@@ -125,7 +125,7 @@ task Merge2 {
         echo ~{input_2} >> inputs.txt
         echo ~{input_3} >> inputs.txt
    
-        SURVIVOR merge inputs.txt 100 2 0 1 0 30 ~{tumor_name + "_" + normal_name + "_merged2.vcf"}
+        SURVIVOR merge inputs.txt 100 2 0 1 1 30 ~{tumor_name + "_" + normal_name + "_merged2.vcf"}
     >>>
 
     runtime {
@@ -158,7 +158,7 @@ task Merge3 {
         echo ~{input_2} >> inputs.txt
         echo ~{input_3} >> inputs.txt
    
-        SURVIVOR merge inputs.txt 100 3 0 1 0 30 ~{tumor_name + "_" + normal_name + "_merged3.vcf"}
+        SURVIVOR merge inputs.txt 100 3 0 1 1 30 ~{tumor_name + "_" + normal_name + "_merged3.vcf"}
     >>>
 
     runtime {

@@ -22,7 +22,8 @@
         "ref_ann": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.ann",
         "ref_pac": "/coaf3b65459446be3/inputs/pre-pro-refs/Homo_sapiens_assembly38.fasta.64.pac"
       },
-    "WaspMapping.chrom_info": "/coaf3b65459446be3/inputs/wasp-refs/chromInfo.hg38.txt.gz", 
+    "WaspMapping.chrom_info": "/coaf3b65459446be3/inputs/wasp-refs/chromInfo.hg38.txt.gz",
+    "WaspMapping.blacklist": "/coaf3b65459446be3/inputs/wasp-refs/hg38-blacklist.v2.bed.gz",
     "WaspMapping.intersecting_snps_script": "/coaf3b65459446be3/inputs/wasp-refs/WASP/mapping/compiled_find_intersecting_snps.py", 
     "WaspMapping.filter_remapped_script": "/coaf3b65459446be3/inputs/wasp-refs/WASP/mapping/filter_remapped_reads.py"
 }

@@ -21,6 +21,7 @@ workflow WaspMapping {
         String read_group
         ReferenceFasta references
         File chrom_info
+        File blacklist
 
         File intersecting_snps_script
         File filter_remapped_script
@@ -109,18 +110,20 @@ workflow WaspMapping {
             output_file_name = sample_name + ".keep.merge.sort.bam"
     }
 
-    call IndexBam {
-        input: 
-            sorted_bam = SortBam.sorted_bam, 
-            output_file_name = sample_name + ".keep.merge.sort.bam.bai"
+    call BlacklistFilter {
+        input:
+            input_bam = SortBam.sorted_bam,
+            output_file_name = sample_name + ".WASP.bam",
+            sample_name = sample_name,
+            blacklist = blacklist 
     }
 
     output {
         File snp_index = compressVcf.snp_index
         File snp_tab = compressVcf.snp_tab
         File haplotype = compressVcf.haplotype
-        File sorted_bam = SortBam.sorted_bam
-        File sorted_bam_index = IndexBam.bai
+        File sorted_bam = BlacklistFilter.outfile
+        File sorted_bam_index = BlacklistFilter.index
     }
 }
 
@@ -345,8 +348,8 @@ task BwaAlignment {
         String output_file_name
     }
 
-    Float multiplier = 2.5
-    Int disk_size = ceil(size(input_fastq1, "GB") * multiplier) + 200
+    Float multiplier = 3
+    Int disk_size = ceil(size(input_fastq1, "GB") * multiplier) + 300
 
     command <<<
         bwa mem -Y -K 100000000 -t 8 -R ~{read_group} ~{reference_fasta} ~{input_fastq1} ~{input_fastq2} | samtools view -Shb -o ~{output_file_name}
@@ -355,8 +358,8 @@ task BwaAlignment {
     runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: disk_size + " GB"
-        cpu: 18
-        memory: "24 GB"
+        cpu: 24
+        memory: "48 GB"
         preemptible: true
         maxRetries: 3
     }
@@ -459,31 +462,38 @@ task SortBam {
     }
 }
 
-# H. create bam index 
-task IndexBam {
+# H. create bam index (+ remove centromeres)
+task BlacklistFilter {
     input {
-        File sorted_bam
+        File input_bam
+    
         String output_file_name
+        String sample_name
+
+        File blacklist
     }
 
-    Float multiplier = 2.5
-    Int disk_size = ceil(size(sorted_bam, "GB") * multiplier) + 20 
+    Float multiplier = 15
+    Int disk_size = ceil(size(input_bam, "GB") * multiplier) + 100 
 
     command <<<
-        samtools index -b ~{sorted_bam} ~{output_file_name}
+        bedtools intersect -v -abam ~{input_bam} -b ~{blacklist} > ~{output_file_name}
+        samtools index ~{output_file_name}
     >>>
 
     runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
-        disk: disk_size + " GB"
-        cpu: 12
-        memory: "15 GB"
+        disk: disk_size + " GB" 
+        cpu: 40 # changed from 24
+        memory: "64 GB" # changed from 24
         preemptible: true
         maxRetries: 3
     }
 
+
     output {
-        File bai = "~{output_file_name}" # keep this
+        File outfile = "~{output_file_name}"
+        File index = "~{output_file_name + '.bai'}"
     }
 }
 

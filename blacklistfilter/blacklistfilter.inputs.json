@@ -1,0 +1,5 @@
+{
+  "BlacklistFilter.input_bam": "/coaf3b65459446be3/inputs/XXX/XXX.bam", 
+  "BlacklistFilter.sample_name": "XXX", 
+  "BlacklistFilter.blacklist": "/coaf3b65459446be3/inputs/wasp-refs/hg38-blacklist.v2.bed.gz"
+}

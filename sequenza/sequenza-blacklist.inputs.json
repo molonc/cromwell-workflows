@@ -1,0 +1,11 @@
+{
+  "SequenzaWorkflow.study": "non-cascadia", 
+  "SequenzaWorkflow.sampleName": "XXX-YYY", 
+  "SequenzaWorkflow.normalName": "YYY", 
+  "SequenzaWorkflow.normalBam": "/coaf3b65459446be3/inputs/XXX/YYY.bam", 
+  "SequenzaWorkflow.tumorName": "XXX", 
+  "SequenzaWorkflow.tumorBam": "/coaf3b65459446be3/inputs/XXX/XXX.bam", 
+  "SequenzaWorkflow.ReferenceFastaGz": "/coaf3b65459446be3/inputs/sequenza-refs/Homo_sapiens_assembly38.fasta.gz", 
+  "SequenzaWorkflow.ReferenceGcWig": "/coaf3b65459446be3/inputs/sequenza-refs/Homo_sapiens_assembly38.gc50Base.wig.gz",
+  "SequenzaWorkflow.blacklist": "/coaf3b65459446be3/inputs/wasp-refs/hg38-blacklist.v2.bed.gz"
+}

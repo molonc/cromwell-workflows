@@ -27,9 +27,19 @@ This workflow follows the general outline shown below:
 
 * Optional: Replace "WorkflowOptionsUrl" and/or "WorkflowDependenciesUrl" with the URL to a local version of the options.json and/or dependencies.json files, respectively.
 
-**mutect2.wdl:**
 
-* No changes necessary.
+**Mutect2.wdl Versions:**
+
+*Primary WDLs:*
+* **mutect2-cbio.wdl:** Default for cfDNA and other tumor samples.
+* **mutect2-cbio-BigBam.wdl:** For combined BAM files exceeding 150GB.
+* **mutect2-cbio-FFPE.wdl:** Specifically designed for FFPE samples, includes additional FFPE filtering.
+
+*Other Variants:*
+* **mutect2-cbio-more-funcotate.wdl:** Enhanced runtime metrics for Funcotate task. Includes an additional 50MB of memory and 10GB of disk space. (Code lines: 1037-1039, 1093, 1097)
+* **mutect2-cbio-more-M2.wdl:** Enhanced runtime metrics for M2 task. Increased disk space allocation. (Code lines: 166, 545, 620, 623)
+* **mutect2-cbio-more-maffuncotate.wdl:** Enhanced runtime metrics for MafFuncotate task. Increased memory, disk, and CPU allocations. (Code lines: 1158-1159, 1220-1221, 1224)
+* **mutect2-cbio-odd.wdl:** Enhanced runtime metrics for M2, FilterAlignmentArtifacts, Funcotate, and MafFuncotate tasks. This version has extended runtime. (Code lines: 157, 168, 208, 547, 622, 625, 959, 1007, 1009, 1137-1138)
 
 ---
 

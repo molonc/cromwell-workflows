@@ -1,0 +1,6 @@
+# Mark Duplicate
+
+This is used during MRD-EDGE.
+
+- Former-MarkDuplicates.wdl is the old wdl without blacklist. 
+- MarkDuplicates.wdl is the updated wdl with blacklist.

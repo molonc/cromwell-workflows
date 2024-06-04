@@ -1,4 +1,5 @@
 {
   "MarkDuplicates.input_bam": "/coaf3b65459446be3/inputs/XXX/XXX.bam",
-  "MarkDuplicates.sample_name": "XXX"
+  "MarkDuplicates.sample_name": "XXX",
+  "MarkDuplicates.blacklist": "/coaf3b65459446be3/inputs/wasp-refs/hg38-blacklist.v2.bed.gz"
 }

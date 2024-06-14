@@ -1,4 +1,5 @@
 version 1.0
+# July 14 Update: Increased runtime for task Viola_L to address frequent stalls under "in-progress"
 
 workflow Viola {
 
@@ -95,7 +96,7 @@ task Viola_L {
         File viola_script
 	}
 
-    Int disk_size = ceil(size(v_input, "GB") * 6)  
+    Int disk_size = ceil(size(v_input, "GB") * 10)   # Used to be Int disk_size = ceil(size(v_input, "GB") * 6)
     
     command <<<
         python ~{viola_script} ~{v_input}
@@ -104,8 +105,8 @@ task Viola_L {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 24
-        memory: "64 GB"
+        cpu: 24 # used to be 30
+        memory: "80 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0
     }

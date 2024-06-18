@@ -1,10 +1,10 @@
 {
-  "Reheader.study": "non-cascadia",
-  "Reheader.input_bam": "/coaf3b65459446be3/inputs/XXX/XXX.bam",
-  "Reheader.sample_ID": "XXX",
-  "Reheader.sample_RGID": "A",
-  "Reheader.sample_LB": "B",
-  "Reheader.sample_PU": "C",
-  "Reheader.sample_SM": "D",
-  "Reheader.sample_PL": "E"
+  "Reheader.study": "sample_study_type",
+  "Reheader.input_bam": "/filepath/to/input.bam",
+  "Reheader.sample_ID": "sample_ID",
+  "Reheader.sample_RGID": "sample_RGID",
+  "Reheader.sample_LB": "sample_LB",
+  "Reheader.sample_PU": "sample_PU",
+  "Reheader.sample_SM": "sample_SM",
+  "Reheader.sample_PL": "sample_PL"
 }

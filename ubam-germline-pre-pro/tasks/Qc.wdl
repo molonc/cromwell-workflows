@@ -446,7 +446,7 @@ task CollectRawWgsMetrics {
   String java_memory_size = (memory_size - 1) * 1000
 
   command {
-    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -Xmx~{java_memory_size}m -jar /usr/gitc/picard.jar \ # added -Xmx option b/c sample is failing at this step; OG: java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       CollectRawWgsMetrics \
       INPUT=~{input_bam} \
       VALIDATION_STRINGENCY=SILENT \

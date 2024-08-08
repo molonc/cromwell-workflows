@@ -54,7 +54,7 @@ task Viola_M {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
         cpu: 24
-        memory: "64 GB"
+        memory: "128 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0
     }
@@ -80,7 +80,7 @@ task Viola_G {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
         cpu: 24
-        memory: "64 GB"
+        memory: "128 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0
     }
@@ -105,8 +105,8 @@ task Viola_L {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 24 # used to be 30
-        memory: "80 GB" # used to be 64GB
+        cpu: 24 
+        memory: "128 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0
     }

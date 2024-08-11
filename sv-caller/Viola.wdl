@@ -70,7 +70,7 @@ task Viola_G {
         File viola_script
 	}
 
-    Int disk_size = ceil(size(v_input, "GB") * 6)  
+    Int disk_size = ceil(size(v_input, "GB") * 10)  
     
     command <<<
         python ~{viola_script} ~{v_input}
@@ -106,7 +106,7 @@ task Viola_L {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
         cpu: 24 
-        memory: "128 GB" # used to be 64GB
+        memory: "150 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0
     }

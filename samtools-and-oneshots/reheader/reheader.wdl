@@ -8,7 +8,7 @@ version 1.0
 ## - sample ID
 ##
 ## Outputs :
-## - BAI file (BAM index)
+## - BAM file
 ##
 ## Created by Aparicio Lab (BC Cancer Research Centre) May 2022.
 ## Reference WDL: https://github.com/biowdl/tasks/blob/develop/samtools.wdl (Copyright (c) 2017 Leiden University Medical Center).

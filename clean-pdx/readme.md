@@ -39,6 +39,11 @@ CleanPDX follows the steps outlined below:
 
 * No changes necessary.
 
+**custom-clean-pdx.wdl:**
+
+* This is a version of clean-pdx.wdl that has more runtime.
+* No changes necessary. 
+
 ---
 
 ### Expected Running Time

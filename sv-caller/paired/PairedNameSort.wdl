@@ -73,7 +73,7 @@ task PairedSortTwo {
 		String output_normal_name
 	}
 
-	Int disk_size = ceil(size(normal_bam, "GB") * 6)
+	Int disk_size = ceil(size(normal_bam, "GB") * 12)
 
 	command <<<
 		samtools sort -n -o ~{output_normal_name} ~{normal_bam}

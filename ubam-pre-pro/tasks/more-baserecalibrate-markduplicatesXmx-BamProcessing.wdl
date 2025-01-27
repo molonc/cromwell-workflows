@@ -170,7 +170,7 @@ task MarkDuplicatesSpark {
 
   Int memory_size = ceil(16 * memory_multiplier)
   Int java_memory_size = (memory_size - 6)
-  Int max_java_memory_size = java_memory_size * 2
+  Int max_java_memory_size = (java_memory_size * 2)
 
   String output_bam_location = "~{output_bam_basename}.bam"
 

@@ -118,6 +118,7 @@ task MarkDuplicates {
 
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)
+  Int max_java_memory_size = (java_memory_size * 2)
 
   # Task is assuming query-sorted input so that the Secondary and Supplementary reads get marked correctly
   # This works because the output of BWA is query-grouped and therefore, so is the output of MergeBamAlignment.
@@ -170,7 +171,6 @@ task MarkDuplicatesSpark {
 
   Int memory_size = ceil(16 * memory_multiplier)
   Int java_memory_size = (memory_size - 6)
-  Int max_java_memory_size = (java_memory_size * 2)
 
   String output_bam_location = "~{output_bam_basename}.bam"
 

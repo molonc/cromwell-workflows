@@ -71,6 +71,7 @@ task Paired {
 	}
 
     Int disk_size = ceil(size(tumor_bam, "GB") * 6)  
+    Int increased_disk_size = disk_size * 2
 
     command <<<
         gridss -r ~{reference_fasta} -o ~{tumor_name + "_"+ normal_name + "_gridss.unfiltered.vcf"} -a ./gridss_assembly.bam ~{normal_bam} ~{tumor_bam}
@@ -78,9 +79,9 @@ task Paired {
 
     runtime {
         docker: "gridss/gridss:latest"
-        disk: disk_size + " GB"
-        cpu: 24
-        memory: "192 GB" # 64 -> 192
+        disk: increased_disk_size + " GB" # doubled
+        cpu: 24 # 24 -> 34
+        memory: "384 GB" # 64 -> 192 -> 384
         preemptible: true
         maxRetries: 0
     }

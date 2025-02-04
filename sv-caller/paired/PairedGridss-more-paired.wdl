@@ -80,7 +80,7 @@ task Paired {
     runtime {
         docker: "gridss/gridss:latest"
         disk: increased_disk_size + " GB" # doubled
-        cpu: 24 # 24 -> 34
+        cpu: 48 # 24 -> 48
         memory: "384 GB" # 64 -> 192 -> 384
         preemptible: true
         maxRetries: 0

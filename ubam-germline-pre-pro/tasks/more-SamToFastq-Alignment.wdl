@@ -118,8 +118,8 @@ task SamToFastqAndBwaMemAndMba {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "20 GB" # 14 GB -> 20 GB
-    cpu: "20" # 16 -> 20
+    memory: "30 GB" # 14 GB -> 20 GB -> 30 GB
+    cpu: "24" # 16 -> 20 -> 24
     disk: disk_size + " GB"
   }
   output {
@@ -140,7 +140,7 @@ task SamSplitter {
   # Since the output bams are less compressed than the input bam we need a disk multiplier that's larger than 2.
   Float disk_multiplier = 2.5
   Int disk_size = ceil(disk_multiplier * unmapped_bam_size + 20)
-  Int doubled_disk_size = disk_size * 2
+  Int greater_disk_size = disk_size * 2.5
 
   command {
     set -e
@@ -161,7 +161,7 @@ task SamSplitter {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "7.5 GB" # 3.75 -> 7.5
-    disk: doubled_disk_size + " GB" # disk_size -> doubled_disk_size
+    memory: "14 GB" # 3.75 -> 7.5 -> 14
+    disk: doubled_disk_size + " GB" # disk_size -> greater_disk_size
   }
 }

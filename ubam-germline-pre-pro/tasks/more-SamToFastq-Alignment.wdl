@@ -162,6 +162,6 @@ task SamSplitter {
     preemptible: true
     maxRetries: preemptible_tries
     memory: "14 GB" # 3.75 -> 7.5 -> 14
-    disk: doubled_disk_size + " GB" # disk_size -> greater_disk_size
+    disk: greater_disk_size + " GB" # disk_size -> greater_disk_size
   }
 }

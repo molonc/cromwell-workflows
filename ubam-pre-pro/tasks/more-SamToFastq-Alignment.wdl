@@ -141,6 +141,7 @@ task SamSplitter {
   # Since the output bams are less compressed than the input bam we need a disk multiplier that's larger than 2.
   Float disk_multiplier = 2.5
   Int disk_size = ceil(disk_multiplier * unmapped_bam_size + 20)
+  Int doubled_disk_size = disk_size * 2
 
   command {
     set -e
@@ -161,7 +162,7 @@ task SamSplitter {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "3.75 GB"
-    disk: disk_size + " GB"
+    memory: "14 GB" # 3.75 -> 14
+    disk: doubled_disk_size + " GB" # disk_size -> doubled_disk_size
   }
 }

@@ -75,6 +75,7 @@ task PairedSortTwo {
 	}
 
 	Int disk_size = ceil(size(normal_bam, "GB") * 12)
+	Int increased_disk_size = disk_size * 2
 
 	command <<<
 		samtools sort -n -o ~{output_normal_name} ~{normal_bam}

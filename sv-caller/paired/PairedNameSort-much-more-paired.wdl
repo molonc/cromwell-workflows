@@ -47,7 +47,7 @@ task PairedSortOne {
 	}
 
 	Int disk_size = ceil(size(tumor_bam, "GB") * 6)
-	Int increased_disk_size = disk_size * 2
+	Int increased_disk_size = disk_size * 4
 
 	command <<<
 		samtools sort -n -o ~{output_tumor_name} ~{tumor_bam}
@@ -56,8 +56,8 @@ task PairedSortOne {
 	runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
-        cpu: 40 # 16 -> 24 -> 40
-        memory: "250 GB" # 64 -> 128 -> 250
+        cpu: 80 # 16 -> 24 -> 40 -> 80
+        memory: "500 GB" # 64 -> 128 -> 250 -> 500
         preemptible: true
         maxRetries: 0
     }
@@ -75,7 +75,7 @@ task PairedSortTwo {
 	}
 
 	Int disk_size = ceil(size(normal_bam, "GB") * 12)
-	Int increased_disk_size = disk_size * 2
+	Int increased_disk_size = disk_size * 4
 
 	command <<<
 		samtools sort -n -o ~{output_normal_name} ~{normal_bam}
@@ -84,8 +84,8 @@ task PairedSortTwo {
 	runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
         disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
-        cpu: 40 # 16 -> 24 -> 40
-        memory: "250 GB" # 64 -> 128 -> 250
+        cpu: 80 # 16 -> 24 -> 40 -> 80
+        memory: "500 GB" # 64 -> 128 -> 250 -> 500
         preemptible: true
         maxRetries: 0
     }

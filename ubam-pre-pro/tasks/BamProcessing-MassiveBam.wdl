@@ -115,7 +115,7 @@ task MarkDuplicates {
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving .25 as wiggleroom
   Float md_disk_multiplier = 3
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + additional_disk
-  Int increased_disk_size = 3 * disk_size
+  Int increased_disk_size = 5 * disk_size
 
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)
@@ -144,7 +144,7 @@ task MarkDuplicates {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "128 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128
+    memory: "256 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
   }
   output {

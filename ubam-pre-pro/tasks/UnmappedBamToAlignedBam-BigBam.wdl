@@ -18,7 +18,7 @@ version 1.0
 
 
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/Alignment.wdl" as Alignment
-import "https://raw.githubusercontent.com/molonc/cromwell-workflows/refs/heads/main/ubam-pre-pro/tasks/more-baserecalibrate-markduplicatesXmx-BamProcessing.wdl" as Processing
+import "https://raw.githubusercontent.com/molonc/cromwell-workflows/refs/heads/main/ubam-pre-pro/tasks/BamProcessing-BigBam.wdl" as Processing
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/Utilities.wdl" as Utils
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/Qc.wdl" as QC
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-pre-pro/tasks/SplitLargeReadGroup.wdl" as SplitRG 

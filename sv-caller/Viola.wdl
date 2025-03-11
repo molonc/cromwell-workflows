@@ -105,7 +105,7 @@ task Viola_L {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-p:latest"
         disk: disk_size + " GB"
-        cpu: 30 # upped from 4GB
+        cpu: 40 # 4 -> 30 -> 40
         memory: "200 GB" # used to be 64GB
         preemptible: true
         maxRetries: 0

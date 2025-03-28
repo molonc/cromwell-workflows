@@ -27,6 +27,7 @@ task SortSam {
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
   Float sort_sam_disk_multiplier = 3.25
   Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GB")) + 20
+  Int increased_disk_size = disk_size * 2
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms4000m -jar /usr/gitc/picard.jar \
@@ -41,9 +42,9 @@ task SortSam {
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
-    disk: disk_size + " GB"
-    cpu: "2" # increase from 1 -> 2 (04/14/2023)
-    memory: "7000 MB" # increase from 5000 MB -> 7000 MB (04/14/2023)
+    disk: increased_disk_size + " GB" # disk_size -> increased_disk_size (03/28/2025)
+    cpu: "4" # increase from 1 -> 2 (04/14/2023) -> 4 (03/28/2025)
+    memory: "10 GB" # increase from 5000 MB -> 7000 MB (04/14/2023) -> 10 GB (03/28/2025)
     preemptible: true
     maxRetries: preemptible_tries
   }

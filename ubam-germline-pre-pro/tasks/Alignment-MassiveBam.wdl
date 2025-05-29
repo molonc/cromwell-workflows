@@ -30,7 +30,7 @@ task GetBwaVersion {
   }
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
-    memory: "1 GB"
+    memory: "5 GB" # 1 -> 5
   }
   output {
     String bwa_version = read_string(stdout())

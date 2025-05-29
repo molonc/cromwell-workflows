@@ -78,11 +78,11 @@ task RevertSam {
 
     Int disk_size
     String docker
-    Int machine_mem_gb = 10 # 2 -> 10
+    Int machine_mem_gb = 20 # 2 -> 10 -> 
     Int preemptible_tries
   }
     Int command_mem_gb = machine_mem_gb - 1    ####Needs to occur after machine_mem_gb is set 
-    Int increased_disk_size = disk_size * 2
+    Int increased_disk_size = disk_size * 3
 
   command <<< 
     ~{gatk_path} --java-options "-Xmx~{command_mem_gb}g" \
@@ -117,10 +117,11 @@ task SortSam {
     String gatk_path
     Int disk_size
     String docker
-    Int machine_mem_gb = 4
+    Int machine_mem_gb = 15 # 4 -> 15
     Int preemptible_tries
   }
     Int command_mem_gb = machine_mem_gb - 1    ####Needs to occur after machine_mem_gb is set 
+    Int increased_disk_size = disk_size * 3
 
   command <<<
     ~{gatk_path} --java-options "-Xmx~{command_mem_gb}g" \
@@ -133,7 +134,7 @@ task SortSam {
   
   runtime {
     docker: docker
-    disk: disk_size + " GB"
+    disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
     memory: machine_mem_gb + " GB"
     preemptible: true
     maxRetries: preemptible_tries

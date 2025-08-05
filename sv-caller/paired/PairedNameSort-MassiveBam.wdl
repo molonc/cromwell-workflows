@@ -46,7 +46,7 @@ task PairedSortOne {
 		String output_tumor_name
 	}
 
-	Int disk_size = ceil(size(bam, "GB") * 12)
+	Int disk_size = ceil(size(tumor_bam, "GB") * 12)
 
 	command <<<
 		samtools sort -n -o ~{output_tumor_name} ~{tumor_bam}
@@ -73,7 +73,7 @@ task PairedSortTwo {
 		String output_normal_name
 	}
 
-	Int disk_size = ceil(size(bam, "GB") * 12)
+	Int disk_size = ceil(size(normal_bam, "GB") * 12)
 
 	command <<<
 		samtools sort -n -o ~{output_normal_name} ~{normal_bam}

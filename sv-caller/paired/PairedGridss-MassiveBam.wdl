@@ -70,20 +70,19 @@ task Paired {
         String? param
 	}
 
-    Int disk_size = ceil(size(tumor_bam, "GB") * 6)  
-    Int increased_disk_size = disk_size * 4
+    Int disk_size = ceil((size(tumor_bam, "GB") + size(normal_bam, "GB")) * 8)
 
     command <<<
         gridss -r ~{reference_fasta} -o ~{tumor_name + "_"+ normal_name + "_gridss.unfiltered.vcf"} -a ./gridss_assembly.bam ~{normal_bam} ~{tumor_bam}
     >>>
 
     runtime {
-        docker: "gridss/gridss:latest"
-        disk: increased_disk_size + " GB" # doubled -> tripled -> quadrupled
-        cpu: 96 # 24 -> 48 -> 96
-        memory: "1000 GB" # 64 -> 192 -> 384 -> 600 -> 1000
-        preemptible: true
-        maxRetries: 0
+  	docker: "gridss/gridss:latest"
+ 	 cpu: 32
+  	memory: "200 GB"
+  	disk: disk_size + " GB"
+  	preemptible: true
+  	maxRetries: 1
     }
 
     output {
@@ -105,10 +104,10 @@ task PairedFilter {
 
     runtime {
         docker: "apariciobioinformaticscoop/wasp-mapping:latest"
-        cpu: 24 # 8 -> 12 -> 24
-        memory: "48 GB" # 16 -> 24 -> 48
+        cpu: 8
+        memory: "24 GB" 
         preemptible: true
-        maxRetries: 0
+        maxRetries: 1
     }
 
     output {

@@ -70,7 +70,7 @@ task Paired {
         String? param
 	}
 
-    Int disk_size = ceil((size(tumor_bam, "GB") + size(normal_bam, "GB")) * 8)
+    Int disk_size = ceil((size(tumor_bam, "GB") + size(normal_bam, "GB")) * 10)
 
     command <<<
         gridss -r ~{reference_fasta} -o ~{tumor_name + "_"+ normal_name + "_gridss.unfiltered.vcf"} -a ./gridss_assembly.bam ~{normal_bam} ~{tumor_bam}
@@ -78,11 +78,11 @@ task Paired {
 
     runtime {
   	docker: "gridss/gridss:latest"
- 	 cpu: 32
+ 	cpu: 32
   	memory: "200 GB"
   	disk: disk_size + " GB"
-  	preemptible: true
-  	maxRetries: 1
+  	preemptible: false
+  	maxRetries: 0
     }
 
     output {

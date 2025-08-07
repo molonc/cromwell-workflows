@@ -79,9 +79,9 @@ task Paired {
     runtime {
   	docker: "gridss/gridss:latest"
  	cpu: 32
-  	memory: "200 GB"
+  	memory: "250 GB"
   	disk: disk_size + " GB"
-  	preemptible: false
+  	preemptible: true
   	maxRetries: 0
     }
 

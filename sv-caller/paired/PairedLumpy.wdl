@@ -62,7 +62,7 @@ task Paired {
         String? param
 	}
 
-    Int disk_size = ceil(size(tumor_bam, "GB") * 6)
+    Int disk_size = ceil(size(tumor_bam, "GB") * 4)
 
     command <<<
         source /opt/conda/bin/activate py2
@@ -85,10 +85,10 @@ task Paired {
     runtime {
         docker: "apariciobioinformaticscoop/sv-caller-c:latest"
         disk: disk_size + " GB"
-        cpu: 24
-        memory: "64 GB"
+        cpu: 16
+        memory: "128 GB"
         preemptible: true
-        maxRetries: 0
+        maxRetries: 1
     }
 
     output {

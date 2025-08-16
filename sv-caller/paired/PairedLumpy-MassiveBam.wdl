@@ -86,7 +86,7 @@ task Paired {
     	docker: "apariciobioinformaticscoop/sv-caller-c:latest"
     	disk: disk_size + " GB"
     	cpu: 16
-    	memory: "64 GB"
+    	memory: "150 GB"
     	preemptible: true
     	maxRetries: 1
     }

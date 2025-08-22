@@ -35,7 +35,7 @@ workflow BamToUnmappedBams {
 
     Int preemptible_tries = 2
 
-    Int additional_disk_size = 20
+    Int additional_disk_size = 40
     String gatk_docker = "broadinstitute/gatk:latest"
     String gatk_path = "/gatk/gatk"
   }
@@ -82,7 +82,7 @@ task RevertSam {
     Int preemptible_tries
   }
     Int command_mem_gb = machine_mem_gb - 1    ####Needs to occur after machine_mem_gb is set 
-    Int increased_disk_size = disk_size * 3
+    Int increased_disk_size = disk_size * 4
 
   command <<< 
     ~{gatk_path} --java-options "-Xmx~{command_mem_gb}g" \
@@ -117,7 +117,7 @@ task SortSam {
     String gatk_path
     Int disk_size
     String docker
-    Int machine_mem_gb = 40 
+    Int machine_mem_gb = 60 
     Int preemptible_tries
   }
     Int command_mem_gb = machine_mem_gb - 1    ####Needs to occur after machine_mem_gb is set 
@@ -144,3 +144,4 @@ task SortSam {
     File sorted_bam = "~{sorted_bam_name}"
   }
 }
+

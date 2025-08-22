@@ -208,6 +208,6 @@ task SumFloats {
     docker: "us.gcr.io/broad-gotc-prod/python:2.7"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "5 GB" # unspecified -> 5
+    memory: "20 GB" # unspecified -> 20
   }
 }

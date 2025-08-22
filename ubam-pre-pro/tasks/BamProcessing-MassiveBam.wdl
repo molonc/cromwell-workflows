@@ -345,8 +345,8 @@ task GatherBqsrReports {
     docker: gatk_docker
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "3500 MB"
-    disk: "20 GB"
+    memory: "10 GB"
+    disk: "40 GB"
   }
   output {
     File output_bqsr_report = "~{output_report_filename}"

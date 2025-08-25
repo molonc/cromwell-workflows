@@ -19,7 +19,7 @@ version 1.0
 
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Alignment-MassiveBam.wdl" as Alignment
 import "https://raw.githubusercontent.com/molonc/cromwell-workflows/refs/heads/main/ubam-germline-pre-pro/tasks/BamProcessing-MassiveBam.wdl" as Processing
-import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Utilities-MassiveBam.wdl" as Utils
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/Qc.wdl" as QC
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/SplitLargeReadGroup-MassiveBam.wdl" as SplitRG 
 import "https://raw.githubusercontent.com/aparicio-bioinformatics-coop/cromwell-workflows/main/ubam-germline-pre-pro/tasks/GermlineStructs.wdl" as Structs

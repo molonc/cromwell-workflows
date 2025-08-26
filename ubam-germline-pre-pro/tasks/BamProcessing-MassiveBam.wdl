@@ -363,7 +363,7 @@ task GatherSortedBamFiles {
   }
 
   # Multiply the input bam size by two to account for the input and output
-  Int disk_size = ceil(2 * total_input_size) + 20
+  Int disk_size = ceil(2 * total_input_size) + 40
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \
@@ -377,7 +377,7 @@ task GatherSortedBamFiles {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "3 GB"
+    memory: "15 GB"
     disk: disk_size + " GB"
   }
   output {

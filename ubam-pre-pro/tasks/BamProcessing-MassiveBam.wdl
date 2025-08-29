@@ -281,14 +281,14 @@ task ApplyBQSR {
     Int bqsr_scatter
     Int preemptible_tries
     String gatk_docker = "us.gcr.io/broad-gatk/gatk:4.0.10.1"
-    Int memory_multiplier = 3 #1 -> 3
-    Int additional_disk = 50  # 20 -> 50            
+    Int memory_multiplier = 6 #1 -> 6
+    Int additional_disk = 80  # 20 -> 80            
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") * 3 + size(input_bam_index, "GB") * 3 + ref_size) + additional_disk
+  Int disk_size = ceil(size(input_bam, "GB") * 4 + size(input_bam_index, "GB") * 4 + ref_size) + additional_disk
 
-  Int memory_size = ceil(7000 * memory_multiplier) # 3500 -> 7000
+  Int memory_size = ceil(10000 * memory_multiplier) # 3500 -> 10000
 
   parameter_meta {
     input_bam: {
@@ -363,8 +363,8 @@ task GatherSortedBamFiles {
     Int preemptible_tries
   }
 
-  # Multiply the input bam size by two to account for the input and output
-  Int disk_size = ceil(2 * total_input_size) + 50 #20 -> 50
+  # Multiply the input bam size by three to account for the input and output
+  Int disk_size = ceil(3 * total_input_size) + 50 #20 -> 50
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \

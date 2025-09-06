@@ -362,8 +362,8 @@ task GatherSortedBamFiles {
     Int preemptible_tries
   }
 
-  # Multiply the input bam size by three to account for the input and output
-  Int disk_size = ceil(3 * total_input_size) + 40
+  # Multiply the input bam size by four to account for the input and output
+  Int disk_size = ceil(4 * total_input_size) + 50
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \
@@ -398,8 +398,8 @@ task GatherUnsortedBamFiles {
     Int preemptible_tries
   }
 
-  # Multiply the input bam size by three to account for the input and output
-  Int disk_size = ceil(3 * total_input_size) + 40
+  # Multiply the input bam size by four to account for the input and output
+  Int disk_size = ceil(4 * total_input_size) + 50
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -jar /usr/gitc/picard.jar \

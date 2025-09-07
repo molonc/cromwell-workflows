@@ -117,10 +117,10 @@ task MarkDuplicates {
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving .25 as wiggleroom
   Float md_disk_multiplier = 3
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + additional_disk
-  Int increased_disk_size = 3 * disk_size
+  Int increased_disk_size = 4 * disk_size
 
   Float memory_size = 7.5 * memory_multiplier
-  Float increased_memory_size = 3 * memory_size
+  Float increased_memory_size = 4 * memory_size
   Int java_memory_size = (ceil(memory_size) - 2)
 
   # Task is assuming query-sorted input so that the Secondary and Supplementary reads get marked correctly
@@ -163,13 +163,13 @@ task MarkDuplicatesSpark {
     Int preemptible_tries
 
     String? read_name_regex
-    Int memory_multiplier = 3
+    Int memory_multiplier = 4
     Int cpu_size = 6
   }
 
   # The merged bam will be smaller than the sum of the parts so we need to account for the unmerged inputs and the merged output.
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving 2.5 as wiggleroom
-  Float md_disk_multiplier = 2.5
+  Float md_disk_multiplier = 3.5
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + 20
 
   Int memory_size = ceil(16 * memory_multiplier)

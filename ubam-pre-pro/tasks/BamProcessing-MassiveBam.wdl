@@ -27,7 +27,7 @@ task SortSam {
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
   Float sort_sam_disk_multiplier = 3.25
   Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GB")) + 20
-  Int increased_disk_size = disk_size * 2
+  Int increased_disk_size = disk_size * 3
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms4000m -jar /usr/gitc/picard.jar \
@@ -109,7 +109,7 @@ task MarkDuplicates {
     # This can be desirable if you don't mind the estimated library size being wrong and optical duplicate detection is taking >7 days and failing
     String? read_name_regex
     Int memory_multiplier = 5 # 3-> 5
-    Int additional_disk = 20              
+    Int additional_disk = 50              
   }
 
   # The merged bam will be smaller than the sum of the parts so we need to account for the unmerged inputs and the merged output.

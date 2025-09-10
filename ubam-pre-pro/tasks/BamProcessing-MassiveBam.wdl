@@ -44,7 +44,7 @@ task SortSam {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size (03/28/2025)
     cpu: "4" # increase from 1 -> 2 (04/14/2023) -> 4 (03/28/2025)
-    memory: "10 GB" # increase from 5000 MB -> 7000 MB (04/14/2023) -> 10 GB (03/28/2025)
+    memory: "12 GB" # increase from 5000 MB -> 7000 MB (04/14/2023) -> 10 GB (03/28/2025)
     preemptible: true
     maxRetries: preemptible_tries
   }

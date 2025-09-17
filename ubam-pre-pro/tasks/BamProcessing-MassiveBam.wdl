@@ -233,7 +233,7 @@ task BaseRecalibrator {
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
   Float dbsnp_size = size(dbsnp_vcf, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") + size(input_bam_index, "GB") + ref_size + dbsnp_size) + 50
+  Int disk_size = ceil(size(input_bam, "GB") + size(input_bam_index, "GB") + ref_size + dbsnp_size) + 100
 
   parameter_meta {
     input_bam: {
@@ -258,7 +258,7 @@ task BaseRecalibrator {
     docker: gatk_docker
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "18 GB" # increase from 6 -> 18 (2025-01-14)
+    memory: "24 GB" # increase from 18 -> 24 (2025-09-17)
     disk: disk_size + " GB"
   }
   output {

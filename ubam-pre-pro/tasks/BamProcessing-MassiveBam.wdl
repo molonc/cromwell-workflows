@@ -548,10 +548,10 @@ task CheckContamination {
   runtime {
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "7.5 GB"
+    memory: "10 GB"
     disk: disk_size + " GB"
     docker: "us.gcr.io/broad-gotc-prod/verify-bam-id:c1cba76e979904eb69c31520a0d7f5be63c72253-1553018888"
-    cpu: 2
+    cpu: 4
   }
   output {
     File selfSM = "~{output_prefix}.selfSM"

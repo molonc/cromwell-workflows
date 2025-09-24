@@ -216,11 +216,11 @@ task CrossCheckFingerprints {
     String cross_check_by
   }
 
-  Int disk_size = ceil(total_input_size) + 20
+  Int disk_size = ceil(total_input_size) + 100 # (+ 20 -> + 100; 2025-09-24)
 
   command <<<
     java -Dsamjdk.buffer_size=131072 \
-      -XX:GCTimeLimit=50 -XX:GCHeapFreeLimit=10 -Xms2000m \
+      -XX:GCTimeLimit=50 -XX:GCHeapFreeLimit=10 -Xms4000m \
       -jar /usr/gitc/picard.jar \
       CrosscheckFingerprints \
       OUTPUT=~{metrics_filename} \
@@ -234,7 +234,7 @@ task CrossCheckFingerprints {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "2 GB"
+    memory: "4 GB" # (2 GB -> 4GB; 2025-09-24)
     disk: disk_size + " GB"
   }
   output {

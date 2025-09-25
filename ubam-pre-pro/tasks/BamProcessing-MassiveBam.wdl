@@ -26,7 +26,7 @@ task SortSam {
   # SortSam spills to disk a lot more because we are only store 300000 records in RAM now because its faster for our data so it needs
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
   Float sort_sam_disk_multiplier = 4.75
-  Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GB")) + 20
+  Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GB")) + 80 # + 20 -> + 80; 2025-09-25
   Int increased_disk_size = disk_size * 5
 
   command {
@@ -43,8 +43,8 @@ task SortSam {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size (03/28/2025)
-    cpu: "6" # increase from 1 -> 2 (04/14/2023) -> 4 (09/15/2025)
-    memory: "16 GB" # increase from 5000 MB -> 7000 MB (04/14/2023) -> 16 GB (09/15/2025)
+    cpu: "6" # increase from 1 -> 2 (04/14/2023) -> 6 (09/15/2025)
+    memory: "20 GB" # increase from 5000 MB -> 7000 MB (04/14/2023) -> 20 GB (2025-09-25)
     preemptible: true
     maxRetries: preemptible_tries
   }

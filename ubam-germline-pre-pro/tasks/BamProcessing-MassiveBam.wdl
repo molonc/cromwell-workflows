@@ -280,8 +280,8 @@ task ApplyBQSR {
     Int bqsr_scatter
     Int preemptible_tries
     String gatk_docker = "us.gcr.io/broad-gatk/gatk:4.0.10.1"
-    Int memory_multiplier = 1
-    Int additional_disk = 20              
+    Int memory_multiplier = 3 # 1 -> 3; 2025-09-25
+    Int additional_disk = 40 # 20 -> 40; 2025-09-25              
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")

@@ -23,10 +23,11 @@ task CollectQualityYieldMetrics {
     Int preemptible_tries
   }
 
-  Int disk_size = ceil(size(input_bam, "GB")) + 20
+  Int disk_size = ceil(size(input_bam, "GB")) + 40 # + 20 -> + 40; 2025-09-29
 
-  command {
-    java -Xms2000m -jar /usr/gitc/picard.jar \
+  # 2000m -> 4000m; 2025-09-29
+  command { 
+    java -Xms4000m -jar /usr/gitc/picard.jar \ 
       CollectQualityYieldMetrics \
       INPUT=~{input_bam} \
       OQ=true \
@@ -35,7 +36,7 @@ task CollectQualityYieldMetrics {
   runtime {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disk: disk_size + " GB"
-    memory: "3 GB"
+    memory: "6 GB" # 3 -> 6 GB; 2025-09-29
     preemptible: true
     maxRetries: preemptible_tries
   }

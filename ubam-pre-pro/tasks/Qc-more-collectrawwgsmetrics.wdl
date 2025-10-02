@@ -27,7 +27,7 @@ task CollectQualityYieldMetrics {
 
   # 2000m -> 4000m; 2025-09-29
   command { 
-    java -Xms4000m -jar /usr/gitc/picard.jar \ 
+    java -Xms4000m -jar /usr/gitc/picard.jar \
       CollectQualityYieldMetrics \
       INPUT=~{input_bam} \
       OQ=true \

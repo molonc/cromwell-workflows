@@ -65,17 +65,18 @@ task SamToFastqAndBwaMemAndMba {
     set -e
 
     # set the bash variable needed for the command-line
+    # 1000m -> 2000m; 2025-10-03
     bash_ref_fasta=~{reference_fasta.ref_fasta}
     # if reference_fasta.ref_alt has data in it,
     if [ -s ~{reference_fasta.ref_alt} ]; then
-      java -Xms1000m -Xmx1000m -jar /usr/gitc/picard.jar \
+      java -Xms2000m -Xmx2000m -jar /usr/gitc/picard.jar \
         SamToFastq \
         INPUT=~{input_bam} \
         FASTQ=/dev/stdout \
         INTERLEAVE=true \
         NON_PF=true | \
       /usr/gitc/~{bwa_commandline} /dev/stdin - 2> >(tee ~{output_bam_basename}.bwa.stderr.log >&2) | \
-      java -Dsamjdk.compression_level=~{compression_level} -Xms1000m -Xmx1000m -jar /usr/gitc/picard.jar \
+      java -Dsamjdk.compression_level=~{compression_level} -Xms2000m -Xmx2000m -jar /usr/gitc/picard.jar \
         MergeBamAlignment \
         VALIDATION_STRINGENCY=SILENT \
         EXPECTED_ORIENTATIONS=FR \
@@ -116,7 +117,7 @@ task SamToFastqAndBwaMemAndMba {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "14 GB"
+    memory: "20 GB" # 14GB -> 20GB; 2025-10-03
     cpu: "16"
     disk: disk_size + " GB"
   }

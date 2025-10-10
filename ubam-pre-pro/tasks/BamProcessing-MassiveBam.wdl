@@ -109,7 +109,7 @@ task MarkDuplicates {
     # This can be desirable if you don't mind the estimated library size being wrong and optical duplicate detection is taking >7 days and failing
     String? read_name_regex
     Int memory_multiplier = 5 # 3-> 5
-    Int additional_disk = 50              
+    Int additional_disk = 100 # 50 -> 100; 2025-10-10              
   }
 
   # The merged bam will be smaller than the sum of the parts so we need to account for the unmerged inputs and the merged output.

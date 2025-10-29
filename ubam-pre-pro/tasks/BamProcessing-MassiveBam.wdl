@@ -114,7 +114,7 @@ task MarkDuplicates {
 
   # The merged bam will be smaller than the sum of the parts so we need to account for the unmerged inputs and the merged output.
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving .25 as wiggleroom
-  Float md_disk_multiplier = 3
+  Float md_disk_multiplier = 5 # 3 -> 5; 2025-10-29
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + additional_disk
   Int increased_disk_size = 5 * disk_size
 

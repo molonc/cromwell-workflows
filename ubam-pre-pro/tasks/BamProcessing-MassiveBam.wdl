@@ -108,21 +108,21 @@ task MarkDuplicates {
     # Sometimes we wish to supply "null" in order to turn off optical duplicate detection
     # This can be desirable if you don't mind the estimated library size being wrong and optical duplicate detection is taking >7 days and failing
     String? read_name_regex
-    Int memory_multiplier = 5 # 3-> 5
+    Int memory_multiplier = 6 # 3-> 6
     Int additional_disk = 100 # 50 -> 100; 2025-10-10              
   }
 
   # The merged bam will be smaller than the sum of the parts so we need to account for the unmerged inputs and the merged output.
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving .25 as wiggleroom
-  Float md_disk_multiplier = 5 # 3 -> 5; 2025-10-29
+  Float md_disk_multiplier = 6 # 3 -> 6; 2025-10-29
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + additional_disk
-  Int increased_disk_size = 5 * disk_size
+  Int increased_disk_size = 6 * disk_size; 5 -> 6; 2025-10-30
 
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)
   Int max_java_memory_size = (java_memory_size * 2)
-  Int increased_java_memory_size = 2 * java_memory_size
-  Int increased_max_java_memory_size = 2 * max_java_memory_size
+  Int increased_java_memory_size = 4 * java_memory_size # 2 -> 4; 2025-10-30
+  Int increased_max_java_memory_size = 4 * max_java_memory_size # 2 -> 4; 2025-10-30
   # Task is assuming query-sorted input so that the Secondary and Supplementary reads get marked correctly
   # This works because the output of BWA is query-grouped and therefore, so is the output of MergeBamAlignment.
   # While query-grouped isn't actually query-sorted, it's good enough for MarkDuplicates with ASSUME_SORT_ORDER="queryname"
@@ -145,7 +145,7 @@ task MarkDuplicates {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "150 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256 -> 150
+    memory: "256 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
   }
   output {

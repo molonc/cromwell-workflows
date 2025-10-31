@@ -145,7 +145,7 @@ task MarkDuplicates {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "256 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256
+    memory: "384 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256 -> 360
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
   }
   output {

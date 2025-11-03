@@ -121,8 +121,8 @@ task MarkDuplicates {
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)
   Int max_java_memory_size = (java_memory_size * 2)
-  Int increased_java_memory_size = 4 * java_memory_size # 2 -> 4; 2025-10-30
-  Int increased_max_java_memory_size = 4 * max_java_memory_size # 2 -> 4; 2025-10-30
+  Int increased_java_memory_size = 3 * java_memory_size # 2 -> 3; 2025-10-30
+  Int increased_max_java_memory_size = 3 * max_java_memory_size # 2 -> 3; 2025-10-30
   # Task is assuming query-sorted input so that the Secondary and Supplementary reads get marked correctly
   # This works because the output of BWA is query-grouped and therefore, so is the output of MergeBamAlignment.
   # While query-grouped isn't actually query-sorted, it's good enough for MarkDuplicates with ASSUME_SORT_ORDER="queryname"

@@ -71,7 +71,7 @@ task Paired {
 	}
 
     Int disk_size = ceil((size(tumor_bam, "GB") + size(normal_bam, "GB")) * 10)
-    Int increased_disk_size = disk_size + 100
+    Int increased_disk_size = disk_size + 200 # 100 -> 200; 2025-11-09
 
     command <<<
         gridss -r ~{reference_fasta} -o ~{tumor_name + "_"+ normal_name + "_gridss.unfiltered.vcf"} -a ./gridss_assembly.bam ~{normal_bam} ~{tumor_bam}

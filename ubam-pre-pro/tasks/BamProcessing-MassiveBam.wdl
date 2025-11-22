@@ -121,8 +121,8 @@ task MarkDuplicates {
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)
   Int max_java_memory_size = (java_memory_size * 2)
-  Int increased_java_memory_size = 4 * java_memory_size # 2 -> 4; 2025-10-30
-  Int increased_max_java_memory_size = 4 * max_java_memory_size # 2 -> 4; 2025-10-30
+  Int increased_java_memory_size = 3 * java_memory_size # 2 -> 3
+  Int increased_max_java_memory_size = 3 * max_java_memory_size # 2 -> 3
   # Task is assuming query-sorted input so that the Secondary and Supplementary reads get marked correctly
   # This works because the output of BWA is query-grouped and therefore, so is the output of MergeBamAlignment.
   # While query-grouped isn't actually query-sorted, it's good enough for MarkDuplicates with ASSUME_SORT_ORDER="queryname"
@@ -145,7 +145,7 @@ task MarkDuplicates {
     docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     preemptible: true
     maxRetries: preemptible_tries
-    memory: "560 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256 -> 384 -> 560
+    memory: "464 GB" # ~{memory_size} (i.e. 22.5 GB) -> 67.5 -> 128 -> 256 -> 384 -> 464
     disk: increased_disk_size + " GB" # disk_size -> increased_disk_size
   }
   output {

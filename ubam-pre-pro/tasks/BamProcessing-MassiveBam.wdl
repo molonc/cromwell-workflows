@@ -27,7 +27,7 @@ task SortSam {
   # more disk space.  Also it spills to disk in an uncompressed format so we need to account for that with a larger multiplier
   Float sort_sam_disk_multiplier = 4.75
   Int disk_size = ceil(sort_sam_disk_multiplier * size(input_bam, "GB")) + 80 # + 20 -> + 80; 2025-09-25
-  Int increased_disk_size = disk_size * 5
+  Int increased_disk_size = disk_size * 6 # 5 -> 6; 2025-11-26
 
   command {
     java -Dsamjdk.compression_level=~{compression_level} -Xms4000m -jar /usr/gitc/picard.jar \

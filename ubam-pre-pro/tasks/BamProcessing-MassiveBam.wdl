@@ -116,7 +116,7 @@ task MarkDuplicates {
   # Mark Duplicates takes in as input readgroup bams and outputs a slightly smaller aggregated bam. Giving .25 as wiggleroom
   Float md_disk_multiplier = 6 # 3 -> 6; 2025-10-29
   Int disk_size = ceil(md_disk_multiplier * total_input_size) + additional_disk
-  Int increased_disk_size = 8 * disk_size # 5 -> 8; 2025-10-30
+  Int increased_disk_size = 10 * disk_size # 5 -> 8 -> 10; 2025-12-10
 
   Float memory_size = 7.5 * memory_multiplier
   Int java_memory_size = (ceil(memory_size) - 2)

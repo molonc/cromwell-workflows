@@ -36,7 +36,7 @@ workflow BamToUnmappedBams {
     Int preemptible_tries = 2
 
     Int additional_disk_size = 20
-    String gatk_docker = "broadinstitute/gatk:latest"
+    String gatk_docker = "broadinstitute/gatk:4.6.2.0"
     String gatk_path = "/gatk/gatk"
   }
     

@@ -18,7 +18,7 @@ workflow MarkDuplicates {
 
     call MarkDuplicates {
         input:
-            input_bam = input_bam,
+            input_bam = BlacklistFilter.outfile,
             sample_name = sample_name
     }
 
